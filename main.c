@@ -1,4 +1,4 @@
-#include "map.c"
+#include "map.h"
 
 
 int main() {
@@ -6,16 +6,13 @@ int main() {
     int j;
     int height = 10;
     int width = 10;
-    int **map = initMap(10,10);
+    int **map = initMap(10,10,1);
     for(i = 0;i<height;i++){
         for(j=0;j<width;j++){
             printf("%3d",map[i][j]);
         }
         printf("\n");
     }
-
-
-
     return 0;
 }
 /*for (i = 0; i < height; i++) {

@@ -2,10 +2,8 @@
 // Created by jonat on 16/10/2021.
 //
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
 
+#include "map.h"
 void shuffle(int *array, size_t n)
 {
     srand( time( NULL ) );
