@@ -46,7 +46,7 @@ int **mapGen(int height, int width, int *npc, int npcSize){
     startHeight = height/2 ;
     map[startHeight][startWidth] = 0;
     max = height > width?height:width;
-    for(turn=0;turn < max*max*max;turn++) {
+    while(nbZero < width*height*0.8){
         i = rand()%height;
         j = rand()%width;
         if(map[i][j] == 0) {
@@ -90,7 +90,7 @@ int **mapGen(int height, int width, int *npc, int npcSize){
     }
     count = 0;
     map[startHeight][startWidth] = 1;
-    printf("%d\n",nbZero);
+
     for(i=0;i<height;i++){
 
         for(j=0;j<width;j++){
@@ -107,27 +107,44 @@ int **mapGen(int height, int width, int *npc, int npcSize){
         if(count == npcSize || count == nbZero){
             break;
         }
-        if(i == height-1 && count != npcSize){
+        if(i == height-1){
             i = -1;
         }
     }
-    printf("\n%d\n",count);
     return map;
 }
 
 int** initMap(int width, int height, int stage){
     srand( time( NULL ) );
-    int stage1[5] = {2,3,4,5,0};
+    int stage1[5] = {3,4,5,0};
+    int stage2[5] = {6,7,8,0};
+    int stage3[5] = {9,10,11,0};
     int count = 0;
-    int nbStage = 1;
+    int nbStage = 0;
     int i;
     int nbNpc = ((height*width)/4);
     int *npc = malloc(nbNpc*sizeof(int));
-    npc[0] = 2;
-    npc[1] = -2;
-    for(i=2;i<nbNpc;i++){
-        if(nbStage < 4)
+    if(stage == 1) {
+        npc[0] = 2;
+        npc[1] = -2;
+        i = 2;
+    }else if(stage == 2){
+        npc[0] = 2;
+        npc[1] = -2;
+        npc[2] = -3;
+        i = 3;
+    }else if(stage == 3){
+        npc[0] = 2;
+        npc[1] = -3;
+        i = 2;
+    }
+    for(;i<nbNpc;i++){
+        if(nbStage < 3 && stage == 1)
             npc[i] = stage1[nbStage];
+        else if (nbStage < 3 && stage == 2)
+            npc[i] = stage2[nbStage];
+        else if(nbStage < 3 && stage == 3)
+            npc[i] = stage3[nbStage];
         else
             npc[i] = rand()%(98-12) + 12 ;
         count+=1;
@@ -135,10 +152,428 @@ int** initMap(int width, int height, int stage){
             nbStage++;
         }
     }
-    for(i=0;i<nbNpc;i++){
-        printf("%3d",npc[i]);
-    }
+    if(stage == 3)
+        npc[nbNpc-1] = 99;
     shuffle(npc,nbNpc);
     return mapGen(height,width,npc,nbNpc);
 }
 
+/*for (i = 0; i < height; i++) {
+            for (j = 0; j < width; j++) {
+                if (map[i][j] != -1) {
+                    value = rand() % 4;
+                    switch (value) {
+                        case 0:
+                            if (j != 0){
+                                    if(map[i][j-1] == -1)
+                                        map[i][j - 1] = 0;
+                            }else{
+                                value = rand() % 3;
+                                switch (value) {
+                                    case 0:
+                                        if (i != 0){
+                                                if(map[i-1][j] == -1)
+                                                    map[i - 1][j] = 0;
+                                        }else{
+                                            value = rand() % 2;
+                                            switch (value) {
+                                                case 0:
+                                                        if(map[i][j-1] == -1)
+                                                            map[i][j+1] = 0;
+                                                    break;
+                                                case 1:
+                                                        if(map[i+1][j] == -1)
+                                                            map[i+1][j] = 0;
+                                                    break;
+                                            }
+                                        }
+                                        break;
+                                    case 1:
+                                            if(map[i][j+1] == -1)
+                                                map[i][j+1] = 0;
+                                        break;
+                                    case 2:
+                                        if (i != height-1){
+                                                if(map[i+1][j] == -1)
+                                                    map[i+1][j] = 0;
+                                        }else{
+                                            value = rand() % 2;
+                                            switch (value) {
+                                                case 0:
+                                                        if(map[i][j+1] == -1)
+                                                            map[i][j+1] = 0;
+                                                    break;
+                                                case 1:
+                                                        if(map[i-1][j] == -1)
+                                                            map[i-1][j] = 0;
+                                                    break;
+                                            }
+                                        }
+                                        break;
+                                }
+                            }
+                            break;
+                        case 1:
+                            if (i != 0){
+                                    if(map[i-1][j] == -1)
+                                        map[i-1][j] = 0;
+                            }else{
+                                value = rand() % 3;
+                                switch (value) {
+                                    case 0:
+                                        if (j != width-1){
+                                                if(map[i][j+1] == -1)
+                                                    map[i][j+1] = 0;
+                                        }else{
+                                            value = rand() % 2;
+                                            switch (value) {
+                                                case 0:
+                                                        if(map[i][j-1] == -1)
+                                                            map[i][j-1] = 0;
+                                                    break;
+                                                case 1:
+                                                        if(map[i+1][j] == -1)
+                                                            map[i+1][j] = 0;
+                                                    break;
+                                            }
+                                        }
+                                        break;
+                                    case 1:
+                                            if(map[i+1][j] == -1)
+                                                map[i+1][j] = 0;
+                                        break;
+                                    case 2:
+                                        if (j != 0){
+                                                if(map[i][j-1] == -1)
+                                                    map[i][j-1] = 0;
+                                        }else{
+                                            value = rand() % 2;
+                                            switch (value) {
+                                                case 0:
+                                                        if(map[i][j+1] == -1)
+                                                            map[i][j+1] = 0;
+                                                    break;
+                                                case 1:
+                                                        if(map[i+1][j] == -1)
+                                                            map[i+1][j] = 0;
+                                                    break;
+                                            }
+                                        }
+                                        break;
+                                }
+                            }
+                            break;
+                        case 2:
+                            if (j != width-1){
+                                    if(map[i][j+1] == -1)
+                                        map[i][j+1] = 0;
+                            }else{
+                                value = rand() % 3;
+                                switch (value) {
+                                    case 0:
+                                        if (i != height-1){
+                                                if(map[i+1][j] == -1)
+                                                    map[i+1][j] = 0;
+                                        }else{
+                                            value = rand() % 2;
+                                            switch (value) {
+                                                case 0:
+                                                        if(map[i][j-1] == -1)
+                                                            map[i][j-1] = 0;
+                                                    break;
+                                                case 1:
+                                                        if(map[i-1][j] == -1)
+                                                            map[i-1][j] = 0;
+                                                    break;
+                                            }
+                                        }
+                                        break;
+                                    case 1:
+                                            if(map[i][j-1] == -1)
+                                                map[i][j-1] = 0;
+                                        break;
+                                    case 2:
+                                        if (i != 0){
+                                                if(map[i-1][j] == -1)
+                                                    map[i-1][j] = 0;
+                                        }else{
+                                            value = rand() % 2;
+                                            switch (value) {
+                                                case 0:
+                                                        if(map[i][j-1] == -1)
+                                                            map[i][j-1] = 0;
+                                                    break;
+                                                case 1:
+                                                        if(map[i+1][j] == -1)
+                                                            map[i+1][j] = 0;
+                                                    break;
+                                            }
+                                        }
+                                        break;
+                                }
+                            }
+                            break;
+                        case 3:
+                            if (i != height-1){
+                                    if(map[i+1][j] == -1)
+                                        map[i+1][j] = 0;
+                            }else{
+                                value = rand() % 3;
+                                switch (value) {
+                                    case 0:
+                                        if (j != 0){
+                                                if(map[i][j-1] == -1)
+                                                    map[i][j-1] = 0;
+                                        }else{
+                                            value = rand() % 2;
+                                            switch (value) {
+                                                case 0:
+                                                        if(map[i][j+1] == -1)
+                                                            map[i][j+1] = 0;
+                                                    break;
+                                                case 1:
+                                                    if(map[i-1][j] == -1)
+                                                        map[i-1][j] = 0;
+                                                    break;
+                                            }
+                                        }
+                                        break;
+                                    case 1:
+                                        if(map[i-1][j] == -1)
+                                            map[i-1][j] = 0;
+                                        break;
+                                    case 2:
+                                        if (j != width-1){
+                                            if(map[i][j+1] == -1)
+                                                map[i][j+1] = 0;
+                                        }else{
+                                            value = rand() % 2;
+                                            switch (value) {
+                                                case 0:
+                                                        if(map[i][j-1] == -1)
+                                                            map[i][j-1] = 0;
+                                                    break;
+                                                case 1:
+                                                        if(map[i-1][j] == -1)
+                                                            map[i-1][j] = 0;
+                                                    break;
+                                            }
+                                        }
+                                        break;
+                                }
+                            }
+                            break;
+                    }
+                }
+            }
+
+        for (i = height-1; i >=0; i--) {
+            for (j = width-1; j >=0 ; j--) {
+                if (map[i][j] != -1) {
+                    value = rand() % 4;
+                    switch (value) {
+                        case 0:
+                            if (j != 0){
+                                if(map[i][j-1] == -1)
+                                    map[i][j - 1] = 0;
+                            }else{
+                                value = rand() % 3;
+                                switch (value) {
+                                    case 0:
+                                        if (i != 0){
+                                            if(map[i-1][j] == -1)
+                                                map[i - 1][j] = 0;
+                                        }else{
+                                            value = rand() % 2;
+                                            switch (value) {
+                                                case 0:
+                                                    if(map[i][j-1] == -1)
+                                                        map[i][j+1] = 0;
+                                                    break;
+                                                case 1:
+                                                    if(map[i+1][j] == -1)
+                                                        map[i+1][j] = 0;
+                                                    break;
+                                            }
+                                        }
+                                        break;
+                                    case 1:
+                                        if(map[i][j+1] == -1)
+                                            map[i][j+1] = 0;
+                                        break;
+                                    case 2:
+                                        if (i != height-1){
+                                            if(map[i+1][j] == -1)
+                                                map[i+1][j] = 0;
+                                        }else{
+                                            value = rand() % 2;
+                                            switch (value) {
+                                                case 0:
+                                                    if(map[i][j+1] == -1)
+                                                        map[i][j+1] = 0;
+                                                    break;
+                                                case 1:
+                                                    if(map[i-1][j] == -1)
+                                                        map[i-1][j] = 0;
+                                                    break;
+                                            }
+                                        }
+                                        break;
+                                }
+                            }
+                            break;
+                        case 1:
+                            if (i != 0){
+                                if(map[i-1][j] == -1)
+                                    map[i-1][j] = 0;
+                            }else{
+                                value = rand() % 3;
+                                switch (value) {
+                                    case 0:
+                                        if (j != width-1){
+                                            if(map[i][j+1] == -1)
+                                                map[i][j+1] = 0;
+                                        }else{
+                                            value = rand() % 2;
+                                            switch (value) {
+                                                case 0:
+                                                    if(map[i][j-1] == -1)
+                                                        map[i][j-1] = 0;
+                                                    break;
+                                                case 1:
+                                                    if(map[i+1][j] == -1)
+                                                        map[i+1][j] = 0;
+                                                    break;
+                                            }
+                                        }
+                                        break;
+                                    case 1:
+                                        if(map[i+1][j] == -1)
+                                            map[i+1][j] = 0;
+                                        break;
+                                    case 2:
+                                        if (j != 0){
+                                            if(map[i][j-1] == -1)
+                                                map[i][j-1] = 0;
+                                        }else{
+                                            value = rand() % 2;
+                                            switch (value) {
+                                                case 0:
+                                                    if(map[i][j+1] == -1)
+                                                        map[i][j+1] = 0;
+                                                    break;
+                                                case 1:
+                                                    if(map[i+1][j] == -1)
+                                                        map[i+1][j] = 0;
+                                                    break;
+                                            }
+                                        }
+                                        break;
+                                }
+                            }
+                            break;
+                        case 2:
+                            if (j != width-1){
+                                if(map[i][j+1] == -1)
+                                    map[i][j+1] = 0;
+                            }else{
+                                value = rand() % 3;
+                                switch (value) {
+                                    case 0:
+                                        if (i != height-1){
+                                            if(map[i+1][j] == -1)
+                                                map[i+1][j] = 0;
+                                        }else{
+                                            value = rand() % 2;
+                                            switch (value) {
+                                                case 0:
+                                                    if(map[i][j-1] == -1)
+                                                        map[i][j-1] = 0;
+                                                    break;
+                                                case 1:
+                                                    if(map[i-1][j] == -1)
+                                                        map[i-1][j] = 0;
+                                                    break;
+                                            }
+                                        }
+                                        break;
+                                    case 1:
+                                        if(map[i][j-1] == -1)
+                                            map[i][j-1] = 0;
+                                        break;
+                                    case 2:
+                                        if (i != 0){
+                                            if(map[i-1][j] == -1)
+                                                map[i-1][j] = 0;
+                                        }else{
+                                            value = rand() % 2;
+                                            switch (value) {
+                                                case 0:
+                                                    if(map[i][j-1] == -1)
+                                                        map[i][j-1] = 0;
+                                                    break;
+                                                case 1:
+                                                    if(map[i+1][j] == -1)
+                                                        map[i+1][j] = 0;
+                                                    break;
+                                            }
+                                        }
+                                        break;
+                                }
+                            }
+                            break;
+                        case 3:
+                            if (i != height-1){
+                                if(map[i+1][j] == -1)
+                                    map[i+1][j] = 0;
+                            }else{
+                                value = rand() % 3;
+                                switch (value) {
+                                    case 0:
+                                        if (j != 0){
+                                            if(map[i][j-1] == -1)
+                                                map[i][j-1] = 0;
+                                        }else{
+                                            value = rand() % 2;
+                                            switch (value) {
+                                                case 0:
+                                                    if(map[i][j+1] == -1)
+                                                        map[i][j+1] = 0;
+                                                    break;
+                                                case 1:
+                                                    if(map[i-1][j] == -1)
+                                                        map[i-1][j] = 0;
+                                                    break;
+                                            }
+                                        }
+                                        break;
+                                    case 1:
+                                        if(map[i-1][j] == -1)
+                                            map[i-1][j] = 0;
+                                        break;
+                                    case 2:
+                                        if (j != width-1){
+                                            if(map[i][j+1] == -1)
+                                                map[i][j+1] = 0;
+                                        }else{
+                                            value = rand() % 2;
+                                            switch (value) {
+                                                case 0:
+                                                    if(map[i][j-1] == -1)
+                                                        map[i][j-1] = 0;
+                                                    break;
+                                                case 1:
+                                                    if(map[i-1][j] == -1)
+                                                        map[i-1][j] = 0;
+                                                    break;
+                                            }
+                                        }
+                                        break;
+                                }
+                            }
+                            break;
+                    }
+                }
+            }
+        }
+    }*/
