@@ -1,5 +1,6 @@
 #include "map.h"
 #include "move.h"
+#include "mobs.h"
 
 int main() {
     int i;
@@ -12,7 +13,12 @@ int main() {
     int **map = initMap(height,width,1);
     int game;
     int dir;
-    do{
+    int *count = malloc(sizeof(int));
+    Mob *mobs = declareMobs(count);
+    for(i = 0 ;i< *(count);i++) {
+        printf("%d %s %d %d %d\n", mobs[i].id, mobs[i].name, mobs[i].damages, mobs[i].xp, mobs[i].hp);
+    }
+    /*do{
         for(i = 0;i<height;i++){
             for(j=0;j<width;j++){
                 printf("%3d",map[i][j]);
@@ -52,7 +58,7 @@ int main() {
                 printf("Rentrez un choix valide\n");
                 break;
         }
-    }while(game != 3);
+    }while(game != 3);*/
 
     return 0;
 }

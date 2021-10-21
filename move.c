@@ -6,7 +6,7 @@
 
 void checkCase(int **map, int *position, int vertical, int horizontal) {
 
-    if(map[position[0] + vertical][position[1] + horizontal] == -1){
+    if(map[position[0] + vertical][position[1] + horizontal] == -1 || map[position[0] + vertical][position[1] + horizontal] == 2){
         printf("Vous ne pouvez pas aller sur cette case\n");
     }else if (map[position[0] + vertical][position[1] + horizontal] == 0) {
         map[position[0]][position[1]] = 0;
@@ -19,7 +19,7 @@ void checkCase(int **map, int *position, int vertical, int horizontal) {
         //lancer recolte
     }
 }
-void move(int **map, int height, int width, int *startPosition, int dir) {
+void move(int **map, int height, int width, int *startPosition, char dir) {
     int horizontal = 0;
     int vertical = 0;
     switch (dir) {
@@ -36,7 +36,7 @@ void move(int **map, int height, int width, int *startPosition, int dir) {
             vertical = 1;
             break;
         default:
-            printf("Direction non autorisee");
+            printf("Direction non autorisee\n");
             return;
     }
     if (startPosition[0] + vertical < 0  || startPosition[1] + horizontal < 0){
