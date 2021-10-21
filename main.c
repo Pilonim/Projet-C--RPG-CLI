@@ -1,6 +1,7 @@
 #include "map.h"
 #include "move.h"
 #include "mobs.h"
+#include "character.h"
 
 int main() {
     int i;
@@ -13,6 +14,8 @@ int main() {
     int **map = initMap(height,width,1);
     int game;
     int dir;
+    Player* player = malloc(sizeof(Player));
+    initPlayer(player);
     int *count = malloc(sizeof(int));
     Mob *mobs = declareMobs(count);
     for(i = 0 ;i< *(count);i++) {
