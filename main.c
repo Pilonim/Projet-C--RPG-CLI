@@ -2,6 +2,7 @@
 #include "move.h"
 #include "mobs.h"
 #include "character.h"
+#include "farm.h"
 
 int main() {
     srand( time( NULL ) );
@@ -20,9 +21,9 @@ int main() {
     int game;
     int dir;
     Player* player = malloc(sizeof(Player));
-    initPlayer(player);
     int *count = malloc(sizeof(int));
     int *actualMap = malloc(sizeof(int));
+    initPlayer(player);
     *actualMap = 0;
     Mob *mobs = declareMobs(count);
     do{
@@ -33,7 +34,7 @@ int main() {
             printf("\n");
         }
         printf("\n");
-        printf("Que voulez vous faire ?\n   -Se deplacer (tapez 1)\n   -Attendre (tapez 2)\n   -Quitter et sauvegarer (tapez 3)\n");
+        printf("Que voulez vous faire ?\n   -Se deplacer (tapez 1)\n   -Attendre (tapez 2)\n   -Consulter son inventaire (tapez 3)\n   -Quitter et sauvegarer (tapez 4)\n");
         scanf("%d", &game);
         switch (game) {
             case 1:
@@ -41,16 +42,16 @@ int main() {
                 scanf("%d",&dir);
                 switch (dir) {
                     case 1:
-                        move(map,height[*actualMap],width[*actualMap],startPosition,'l', actualMap);
+                        move(map,height[*actualMap],width[*actualMap],startPosition,'l', actualMap, player);
                         break;
                     case 2:
-                        move(map,height[*actualMap],width[*actualMap],startPosition,'r', actualMap);
+                        move(map,height[*actualMap],width[*actualMap],startPosition,'r', actualMap, player);
                         break;
                     case 3:
-                        move(map,height[*actualMap],width[*actualMap],startPosition,'u', actualMap);
+                        move(map,height[*actualMap],width[*actualMap],startPosition,'u', actualMap, player);
                         break;
                     case 4:
-                        move(map,height[*actualMap],width[*actualMap],startPosition,'d', actualMap);
+                        move(map,height[*actualMap],width[*actualMap],startPosition,'d', actualMap, player);
                         break;
                     default:
                         printf("Ce n'est pas une direction valide\n");
@@ -60,12 +61,17 @@ int main() {
             case 2:
                 break;
             case 3:
+                showInventory(player);
+                sleep(3);
+                printf("\n");
+                break;
+            case 4:
                 break;
             default:
                 printf("Rentrez un choix valide\n");
                 break;
         }
-    }while(game != 3);
+    }while(game != 4);
 
     return 0;
 }
