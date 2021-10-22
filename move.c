@@ -4,22 +4,26 @@
 
 #include "move.h"
 
-void checkCase(int **map, int *position, int vertical, int horizontal) {
+void checkCase(int ***map, int **position, int vertical, int horizontal, int *actualMap) {
 
-    if(map[position[0] + vertical][position[1] + horizontal] == -1 || map[position[0] + vertical][position[1] + horizontal] == 2){
+    if(map[*actualMap][position[*actualMap][0] + vertical][position[*actualMap][1] + horizontal] == -1 || map[*actualMap][position[*actualMap][0] + vertical][position[*actualMap][1] + horizontal] == 2){
         printf("Vous ne pouvez pas aller sur cette case\n");
-    }else if (map[position[0] + vertical][position[1] + horizontal] == 0) {
-        map[position[0]][position[1]] = 0;
-        position[0] += vertical;
-        position[1] += horizontal;
-        map[position[0]][position[1]] = 1;
-    }else if (map[position[0] + vertical][position[1] + horizontal] >= 12) {
+    }else if (map[*actualMap][position[*actualMap][0] + vertical][position[*actualMap][1] + horizontal] == 0) {
+        map[*actualMap][position[*actualMap][0]][position[*actualMap][1]] = 0;
+        position[*actualMap][0] += vertical;
+        position[*actualMap][1] += horizontal;
+        map[*actualMap][position[*actualMap][0]][position[*actualMap][1]] = 1;
+    }else if (map[*actualMap][position[*actualMap][0] + vertical][position[*actualMap][1] + horizontal] >= 12) {
         //lancer combat
+    }else if (map[*actualMap][position[*actualMap][0] + vertical][position[*actualMap][1] + horizontal] == -2 ){
+        *actualMap = *actualMap == 1?0:1;
+    }else if(map[*actualMap][position[*actualMap][0] + vertical][position[*actualMap][1] + horizontal] == -3 ){
+        *actualMap = *actualMap == 1?2:1;
     }else{
         //lancer recolte
     }
 }
-void move(int **map, int height, int width, int *startPosition, char dir) {
+void move(int ***map, int height, int width, int **startPosition, char dir, int *actualMap) {
     int horizontal = 0;
     int vertical = 0;
     switch (dir) {
@@ -39,23 +43,23 @@ void move(int **map, int height, int width, int *startPosition, char dir) {
             printf("Direction non autorisee\n");
             return;
     }
-    if (startPosition[0] + vertical < 0  || startPosition[1] + horizontal < 0){
+    if (startPosition[*actualMap][0] + vertical < 0  || startPosition[*actualMap][1] + horizontal < 0){
         if(vertical){
             vertical = height-1;
-            checkCase(map, startPosition, vertical, horizontal);
+            checkCase(map, startPosition, vertical, horizontal, actualMap);
         }else{
             horizontal = width-1;
-            checkCase(map, startPosition, vertical, horizontal);
+            checkCase(map, startPosition, vertical, horizontal, actualMap);
         }
-    }else if( startPosition[0] + vertical >= height  || startPosition[1] + horizontal >= width){
+    }else if( startPosition[*actualMap][0] + vertical >= height  || startPosition[*actualMap][1] + horizontal >= width){
         if(vertical){
             vertical = -(height-1);
-            checkCase(map, startPosition, vertical, horizontal);
+            checkCase(map, startPosition, vertical, horizontal, actualMap);
         }else{
             horizontal = -(width-1);
-            checkCase(map, startPosition, vertical, horizontal);
+            checkCase(map, startPosition, vertical, horizontal, actualMap);
         }
     }else{
-        checkCase(map, startPosition, vertical, horizontal);
+        checkCase(map, startPosition, vertical, horizontal, actualMap);
     }
 }

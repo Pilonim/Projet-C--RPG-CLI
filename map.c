@@ -23,19 +23,17 @@ void shuffle(int *array, size_t n)
 int **mapGen(int height, int width, int *npc, int npcSize){
     int i;
     int j;
-    int turn;
-    int max;
     int startWidth;
     int value;
     int startHeight;
     int count = 0;
     int nbZero = 0;
 
-    int **map = malloc(height*sizeof(int*));
+    int **map = malloc(height * sizeof(int*));
 
     srand( time( NULL ) );
     for(i=0;i<height;i++){
-        map[i] = malloc(width*sizeof(int));
+        map[i] = malloc(width * sizeof(int));
     }
     for(i=0;i<height;i++){
         for(j=0;j<width;j++){
@@ -45,7 +43,6 @@ int **mapGen(int height, int width, int *npc, int npcSize){
     startWidth = width/2;
     startHeight = height/2 ;
     map[startHeight][startWidth] = 0;
-    max = height > width?height:width;
     while(nbZero < width*height*0.8){
         i = rand()%height;
         j = rand()%width;
