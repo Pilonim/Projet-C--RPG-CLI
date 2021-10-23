@@ -23,5 +23,6 @@ typedef struct Player{
     Item inventory[10];
     int nbItem;
 } Player;
+//salut les bg
 #endif //MALLOC_WORLD_STRUCT_H
 
