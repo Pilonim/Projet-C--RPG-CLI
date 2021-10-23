@@ -14,20 +14,24 @@ int main() {
     int ***map = malloc(sizeof(int**)*3);
     int ***diedNpcs = malloc(sizeof(int**) * 3);
     int **nbDiedNpcs = malloc(sizeof(int*) * 3);
+    int *xpWin = malloc(sizeof(int));
+    *xpWin = 0;
+    int *count = malloc(sizeof(int));
+    Mob *mobs = declareMobs(count);
+    //printMobs(mobs,*count);
     for(i=0;i<3;i++){
         startPosition[i] = malloc(sizeof(int) * 2);
         startPosition[i][0] = height[i]/2;
         startPosition[i][1] = width[i]/2;
-        map[i] = initMap(width[i],height[i],i+1,&(diedNpcs[i]),&(nbDiedNpcs[i]));
+        map[i] = initMap(width[i],height[i],i+1,&(diedNpcs[i]),&(nbDiedNpcs[i]),mobs,count);
     }
     int game = 3;
     int dir;
     Player* player = malloc(sizeof(Player));
-    int *count = malloc(sizeof(int));
     int *actualMap = malloc(sizeof(int));
     initPlayer(player);
     *actualMap = 0;
-    Mob *mobs = declareMobs(count);
+
     do{
         if(game != 3) {
             for (i = 0; i < (*nbDiedNpcs)[*actualMap]; i++) {
@@ -56,16 +60,16 @@ int main() {
                 scanf("%d",&dir);
                 switch (dir) {
                     case 1:
-                        move(map,height[*actualMap],width[*actualMap],startPosition,'l', actualMap, player, diedNpcs[*actualMap],nbDiedNpcs[*actualMap]);
+                        move(map,height[*actualMap],width[*actualMap],startPosition,'l', actualMap, player, diedNpcs[*actualMap],nbDiedNpcs[*actualMap], mobs, *count, xpWin);
                         break;
                     case 2:
-                        move(map,height[*actualMap],width[*actualMap],startPosition,'r', actualMap, player, diedNpcs[*actualMap],nbDiedNpcs[*actualMap]);
+                        move(map,height[*actualMap],width[*actualMap],startPosition,'r', actualMap, player, diedNpcs[*actualMap],nbDiedNpcs[*actualMap], mobs, *count, xpWin);
                         break;
                     case 3:
-                        move(map,height[*actualMap],width[*actualMap],startPosition,'u', actualMap, player, diedNpcs[*actualMap],nbDiedNpcs[*actualMap]);
+                        move(map,height[*actualMap],width[*actualMap],startPosition,'u', actualMap, player, diedNpcs[*actualMap],nbDiedNpcs[*actualMap], mobs, *count, xpWin);
                         break;
                     case 4:
-                        move(map,height[*actualMap],width[*actualMap],startPosition,'d', actualMap, player, diedNpcs[*actualMap],nbDiedNpcs[*actualMap]);
+                        move(map,height[*actualMap],width[*actualMap],startPosition,'d', actualMap, player, diedNpcs[*actualMap],nbDiedNpcs[*actualMap], mobs, *count, xpWin);
                         break;
                     default:
                         printf("Ce n'est pas une direction valide\n");
@@ -88,7 +92,7 @@ int main() {
                 printf("Rentrez un choix valide\n");
                 break;
         }
-    }while(game != 4);
+    }while(game != 4 && *xpWin != -1);
 
     return 0;
 }

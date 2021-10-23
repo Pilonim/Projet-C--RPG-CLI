@@ -4,6 +4,18 @@
 
 #ifndef MALLOC_WORLD_STRUCT_H
 #define MALLOC_WORLD_STRUCT_H
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <unistd.h>
+
+#define ARME 1
+#define OUTIL 2
+#define CRAFT 3
+#define SOIN 4
+#define ARMURE 5
+
 typedef struct Item{
     int id;
     char name[255];
@@ -16,13 +28,21 @@ typedef struct Item{
 
 
 typedef struct Player{
-    int hp;
-    int hpMax;
+    double hp;
+    double hpMax;
     int exp;
     int lvl;
     Item inventory[10];
     int nbItem;
 } Player;
-//salut les bg.
+
+typedef struct mob_s{
+    int id;
+    char *name;
+    int damages;
+    int xp;
+    double hp;
+    int stage;
+}Mob;
 #endif //MALLOC_WORLD_STRUCT_H
 

@@ -1,5 +1,6 @@
-name: orc, id: 12, damages: 12, hp: 10, xp: 21
-name: ours, id: 13, damages: 50, hp: 12, xp: 22
-name: nathan, id: 99, damages: 5000, hp: 12000, xp: 0
-name: bill, id: 15, damages: 50, hp: 12, xp: 22
-name: ValdumLeChat, id: 98, damages: 200000, hp: 1, xp: 100000
+name: orc, id: 12, damages: 7, hp: 10, xp: 21, stage: 1
+name: ours, id: 13, damages: 5, hp: 12, xp: 22, stage: 1
+name: nathan, id: 97, damages: 5000, hp: 12000, xp: 0, stage: 2
+name: bill, id: 15, damages: 50, hp: 12, xp: 22, stage: 2
+name: ValdumLeChat, id: 98, damages: 200000, hp: 1, xp: 100000, stage: 3
+name: leplusbeau, id: 52, damages: 10, hp: 10, stage: 1

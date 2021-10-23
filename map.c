@@ -20,7 +20,7 @@ void shuffle(int *array, size_t n)
     }
 }
 
-int **mapGen(int height, int width, int *npc, int npcSize, int ***diedNpcs, int **nbDiedNpcs){
+int **mapGen(int height, int width, int *npc, int npcSize, int ***diedNpcs, int **nbDiedNpcs, Mob *mobs, int *nbMobs){
     int i;
     int j;
     int startWidth;
@@ -117,7 +117,7 @@ int **mapGen(int height, int width, int *npc, int npcSize, int ***diedNpcs, int 
     return map;
 }
 
-int** initMap(int width, int height, int stage, int ***diedNpcs, int **nbDiedNpcs){
+int** initMap(int width, int height, int stage, int ***diedNpcs, int **nbDiedNpcs, Mob *mobs,int *nbMobs){
     srand( time( NULL ) );
     int stage1[5] = {3,4,5,0};
     int stage2[5] = {6,7,8,0};
@@ -125,6 +125,8 @@ int** initMap(int width, int height, int stage, int ***diedNpcs, int **nbDiedNpc
     int count = 0;
     int nbStage = 0;
     int i;
+    int k;
+    int find = 0;
     int nbNpc = ((height*width)/4);
     int *npc = malloc(nbNpc*sizeof(int));
     *diedNpcs = malloc(sizeof(int*) * nbNpc);
@@ -152,8 +154,22 @@ int** initMap(int width, int height, int stage, int ***diedNpcs, int **nbDiedNpc
             npc[i] = stage2[nbStage];
         else if(nbStage < 3 && stage == 3)
             npc[i] = stage3[nbStage];
-        else
-            npc[i] = rand()%(98-12) + 12 ;
+        else {
+
+            for (k = find; k < *nbMobs; k++) {
+                if (mobs[k].stage == stage) {
+                    npc[i] = mobs[k].id;
+                    find = k+1;
+                    break;
+                }
+                find += 1;
+                if (find == (*nbMobs)) {
+                    find = 0;
+                    k = -1;
+                }
+            }
+            printf("%d\n",find);
+        }
         count+=1;
         if(count % ((nbNpc/4)-1) == 0){
             nbStage++;
@@ -162,7 +178,7 @@ int** initMap(int width, int height, int stage, int ***diedNpcs, int **nbDiedNpc
     if(stage == 3)
         npc[nbNpc-1] = 99;
     shuffle(npc,nbNpc);
-    return mapGen(height,width,npc,nbNpc,diedNpcs,nbDiedNpcs);
+    return mapGen(height,width,npc,nbNpc,diedNpcs,nbDiedNpcs,mobs,nbMobs);
 }
 
 /*for (i = 0; i < height; i++) {

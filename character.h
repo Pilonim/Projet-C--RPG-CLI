@@ -9,11 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define ARME 1
-#define OUTIL 2
-#define CRAFT 3
-#define SOIN 4
-#define ARMURE 5
+
 
 Item createItem(int id, char* name, int type, int durability,int maxDurability, double effect);
 void addInv(int id,Player* player);
