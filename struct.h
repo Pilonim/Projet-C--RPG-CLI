@@ -8,8 +8,8 @@ typedef struct Item{
     int id;
     char name[255];
     int type; //arme, outil, ressource de craft ou soin
-    int durability;
-    int maxDurability;
+    double durability;
+    double maxDurability;
     double effect;
     int amount;
 } Item;
