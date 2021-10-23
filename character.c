@@ -153,16 +153,17 @@ void addInv(int id,Player* player){
 
 void removeItem(Player* player, int index){
     int choice = 0;
-    printf("Combien d\'item voulez-vous suppr");
-    scanf("%d",&choice);
-    if(choice){
-        if(choice>= player->inventory[index].amount){
-            player->inventory[index].amount -= choice;
-        } else {
-            if(player->inventory[index].id != 0) {
-                player->nbItem -= 1;
-                player->inventory[index] = createItem(0, "", 0, 0, 0, 0);
-            }
+    if(player->inventory[index].amount == 1){
+        player->inventory[index] = createItem(0, "", 0, 0, 0, 0);
+        player->nbItem -= 1;
+    } else {
+        printf("Combien d\'item voulez-vous supprimmer : \n");
+        scanf("%d",&choice);
+        player->inventory[index].amount -= choice;
+
+        if (player->inventory[index].amount <= 0){
+            player->inventory[index] = createItem(0, "", 0, 0, 0, 0);
+            player->nbItem -= 1;
         }
     }
 }
