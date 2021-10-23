@@ -168,6 +168,7 @@ void removeItem(Player* player, int index){
     }
 }
 
+
 Player initPlayer(Player* player){
     player->hp = 100;
     player->hpMax = 100;
