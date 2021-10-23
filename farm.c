@@ -56,11 +56,11 @@ int collect(Player *p, int caseValue){
                         addInv(itemId,p);
                     }
                     if(itemId < 10 ){
-                        p->inventory[j].durability -= (p->inventory[j].durability*0.1);
+                        p->inventory[j].durability -= (p->inventory[j].maxDurability*0.1);
                     }else if (itemId < 20){
-                        p->inventory[j].durability -= (p->inventory[j].durability*0.2);
+                        p->inventory[j].durability -= (p->inventory[j].maxDurability*0.2);
                     }else{
-                        p->inventory[j].durability -= (p->inventory[j].durability*0.4);
+                        p->inventory[j].durability -= (p->inventory[j].maxDurability*0.4);
                     }
                     return times;
                 }
@@ -70,11 +70,11 @@ int collect(Player *p, int caseValue){
                         addInv(itemId,p);
                     }
                     if(itemId < 10 ){
-                        p->inventory[j].durability -= (p->inventory[j].durability*0.1);
+                        p->inventory[j].durability -= (p->inventory[j].maxDurability*0.1);
                     }else if (itemId < 20){
-                        p->inventory[j].durability -= (p->inventory[j].durability*0.2);
+                        p->inventory[j].durability -= (p->inventory[j].maxDurability*0.2);
                     }else{
-                        p->inventory[j].durability -= (p->inventory[j].durability*0.4);
+                        p->inventory[j].durability -= (p->inventory[j].maxDurability*0.4);
                     }
                     return times;
                 }
@@ -84,11 +84,11 @@ int collect(Player *p, int caseValue){
                         addInv(itemId,p);
                     }
                     if(itemId < 10 ){
-                        p->inventory[j].durability -= (p->inventory[j].durability*0.1);
+                        p->inventory[j].durability -= (p->inventory[j].maxDurability*0.1);
                     }else if (itemId < 20){
-                        p->inventory[j].durability -= (p->inventory[j].durability*0.2);
+                        p->inventory[j].durability -= (p->inventory[j].maxDurability*0.2);
                     }else{
-                        p->inventory[j].durability -= (p->inventory[j].durability*0.4);
+                        p->inventory[j].durability -= (p->inventory[j].maxDurability*0.4);
                     }
                     return times;
                 }

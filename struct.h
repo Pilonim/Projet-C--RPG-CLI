@@ -9,7 +9,7 @@ typedef struct Item{
     char name[255];
     int type; //arme, outil, ressource de craft ou soin
     double durability;
-    int maxDurability;
+    double maxDurability;
     double effect;
     int amount;
 } Item;

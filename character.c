@@ -172,21 +172,21 @@ void showInventory(Player *p){
     for(i=0;i<10;i++){
         if(p->inventory[i].id != 0){
             if(p->inventory[i].type == CRAFT){
-                printf("id : %d // nom : %s // quantite : %d\n",p->inventory[i].id,p->inventory[i].name,p->inventory[i].amount);
+                printf("index : %d // nom : %s // quantite : %d\n",i,p->inventory[i].name,p->inventory[i].amount);
             }else if(p->inventory[i].type == OUTIL){
-                printf("id : %d // nom : %s // durabilite : %d\n",p->inventory[i].id,p->inventory[i].name,p->inventory[i].durability);
+                printf("index : %d // nom : %s // durabilite : %0.1lf\n",i,p->inventory[i].name,p->inventory[i].durability);
             }else if(p->inventory[i].type == ARME){
-                printf("id : %d // nom : %s // degats : %0.1lf // durabilite : %d\n",p->inventory[i].id,p->inventory[i].name,p->inventory[i].effect,p->inventory[i].durability);
+                printf("index : %d // nom : %s // degats : %0.1lf // durabilite : %0.1lf\n",i,p->inventory[i].name,p->inventory[i].effect,p->inventory[i].durability);
             }else if(p->inventory[i].type == ARMURE){
-                printf("id : %d // nom : %s // armure : %lf\n",p->inventory[i].id,p->inventory[i].name,p->inventory[i].effect);
+                printf("index : %d // nom : %s // armure : %lf\n",i,p->inventory[i].name,p->inventory[i].effect);
             }else if(p->inventory[i].type == SOIN) {
-                printf("id : %d // nom : %s // soin : %lf hp\n",p->inventory[i].id,p->inventory[i].name,p->inventory[i].effect);
+                printf("index : %d // nom : %s // soin : %lf hp\n",i,p->inventory[i].name,p->inventory[i].effect);
             }
         }
     }
 }
 
-Player initPlayer(Player* player){
+void initPlayer(Player* player){
     player->hp = 100;
     player->hpMax = 100;
     player->exp = 0;
