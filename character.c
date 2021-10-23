@@ -41,7 +41,7 @@ void addInv(int id,Player* player){
 
     switch (id) {
         case 1 :
-            player->inventory[i] = createItem(1,"épée en bois", ARME, 10,10, 1);
+            player->inventory[i] = createItem(1,"Epee en bois", ARME, 10,10, 1);
             break;
         case 2 :
             player->inventory[i] = createItem(2,"Pioche en bois", OUTIL, 10,10, 0);
@@ -62,7 +62,7 @@ void addInv(int id,Player* player){
             player->inventory[i] = createItem(7,"Herbe", CRAFT, 0,0, 0);
             break;
         case 8 :
-            player->inventory[i] = createItem(8,"Épée en pierre", ARME, 10,10, 2);
+            player->inventory[i] = createItem(8,"Epee en pierre", ARME, 10,10, 2);
             break;
         case 9 :
             player->inventory[i] = createItem(9,"Lance en pierre", ARME, 8,8, 3);
@@ -95,7 +95,7 @@ void addInv(int id,Player* player){
             player->inventory[i] = createItem(18,"Lavande", CRAFT, 0,0, 0);
             break;
         case 19 :
-            player->inventory[i] = createItem(19,"Épée en fer", ARME, 10,10, 5);
+            player->inventory[i] = createItem(19,"Epee en fer", ARME, 10,10, 5);
             break;
         case 20 :
             player->inventory[i] = createItem(20,"Lance en fer", ARME, 8,8, 7);
@@ -128,7 +128,7 @@ void addInv(int id,Player* player){
             player->inventory[i] = createItem(29,"Chanvre", CRAFT, 0,0, 0);
             break;
         case 30 :
-            player->inventory[i] = createItem(30,"Épée en diamant", ARME, 10,10, 10);
+            player->inventory[i] = createItem(30,"Epee en diamant", ARME, 10,10, 10);
             break;
         case 31 :
             player->inventory[i] = createItem(31,"Lance en diamant", ARME, 8,8, 15);
@@ -153,21 +153,41 @@ void addInv(int id,Player* player){
 
 void removeItem(Player* player, int index){
     int choice = 0;
-    printf("Combien d\'item voulez-vous suppr");
-    scanf("%d",&choice);
-    if(choice){
-        if(choice>= player->inventory[index].amount){
-            player->inventory[index].amount -= choice;
-        } else {
-            if(player->inventory[index].id != 0) {
-                player->nbItem -= 1;
-                player->inventory[index] = createItem(0, "", 0, 0, 0, 0);
+    if(player->inventory[index].amount == 1){
+        player->inventory[index] = createItem(0, "", 0, 0, 0, 0);
+        player->nbItem -= 1;
+    } else {
+        printf("Combien d\'item voulez-vous suppr : \n");
+        scanf("%d",&choice);
+        player->inventory[index].amount -= choice;
+
+        if (player->inventory[index].amount <= 0){
+            player->inventory[index] = createItem(0, "", 0, 0, 0, 0);
+            player->nbItem -= 1;
+        }
+    }
+}
+
+void showInventory(Player *p){
+    int i;
+    for(i=0;i<10;i++){
+        if(p->inventory[i].id != 0){
+            if(p->inventory[i].type == CRAFT){
+                printf("index : %d // nom : %s // quantite : %d\n",i,p->inventory[i].name,p->inventory[i].amount);
+            }else if(p->inventory[i].type == OUTIL){
+                printf("index : %d // nom : %s // durabilite : %0.1lf\n",i,p->inventory[i].name,p->inventory[i].durability);
+            }else if(p->inventory[i].type == ARME){
+                printf("index : %d // nom : %s // degats : %0.1lf // durabilite : %0.1lf\n",i,p->inventory[i].name,p->inventory[i].effect,p->inventory[i].durability);
+            }else if(p->inventory[i].type == ARMURE){
+                printf("index : %d // nom : %s // armure : %lf\n",i,p->inventory[i].name,p->inventory[i].effect);
+            }else if(p->inventory[i].type == SOIN) {
+                printf("index : %d // nom : %s // soin : %lf hp\n",i,p->inventory[i].name,p->inventory[i].effect);
             }
         }
     }
 }
 
-Player initPlayer(Player* player){
+void initPlayer(Player* player){
     player->hp = 100;
     player->hpMax = 100;
     player->exp = 0;

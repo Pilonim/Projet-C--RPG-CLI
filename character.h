@@ -18,7 +18,8 @@
 Item createItem(int id, char* name, int type, int durability,int maxDurability, double effect);
 void addInv(int id,Player* player);
 void removeItem(Player* player, int index);
-Player initPlayer(Player* player);
+void initPlayer(Player* player);
+void showInventory(Player *p);
 
 
 

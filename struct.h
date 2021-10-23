@@ -23,5 +23,11 @@ typedef struct Player{
     Item inventory[10];
     int nbItem;
 } Player;
+
+typedef struct PNJ{
+    int chestSize;
+    Item* chest;
+}PNJ;
+
 #endif //MALLOC_WORLD_STRUCT_H
 
