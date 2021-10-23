@@ -8,6 +8,6 @@
 #include <stdlib.h>
 #include <time.h>
 #include "farm.h"
-void move(int ***map, int height, int width, int **startPosition, char dir, int *actualMap, Player *p);
-void checkCase(int ***map, int **position, int vertical, int horizontal, int *actualMap, Player *p);
+void move(int ***map, int height, int width, int **startPosition, char dir, int *actualMap, Player *p, int **diedNpcs, int *nbDiedNpcs);
+void checkCase(int ***map, int **position, int vertical, int horizontal, int *actualMap, Player *p, int **diedNpcs, int *nbDiedNpcs);
 #endif //PROJET_C___JEU_2D_MOVE_H

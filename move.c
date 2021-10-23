@@ -4,9 +4,10 @@
 
 #include "move.h"
 
-void checkCase(int ***map, int **position, int vertical, int horizontal, int *actualMap, Player *p) {
+void checkCase(int ***map, int **position, int vertical, int horizontal, int *actualMap, Player *p, int **diedNpcs, int *nbDiedNpcs) {
     int verif = 0;
     char res[10];
+    int i;
 
     if(map[*actualMap][position[*actualMap][0] + vertical][position[*actualMap][1] + horizontal] == -1 || map[*actualMap][position[*actualMap][0] + vertical][position[*actualMap][1] + horizontal] == 2){
         printf("Vous ne pouvez pas aller sur cette case\n");
@@ -47,13 +48,19 @@ void checkCase(int ***map, int **position, int vertical, int horizontal, int *ac
             map[*actualMap][position[*actualMap][0]][position[*actualMap][1]] = 0;
             position[*actualMap][0] += vertical;
             position[*actualMap][1] += horizontal;
+            for(i=0;i<*nbDiedNpcs;i++){
+                if(diedNpcs[i][0] == position[*actualMap][0] && diedNpcs[i][1] == position[*actualMap][1]){
+                    diedNpcs[i][3] = 10;
+                    diedNpcs[i][4] = 1;
+                }
+            }
             map[*actualMap][position[*actualMap][0]][position[*actualMap][1]] = 1;
         }else{
             printf("Vous ne pouvez pas recolter cette ressource\n");
         };
     }
 }
-void move(int ***map, int height, int width, int **startPosition, char dir, int *actualMap, Player *p) {
+void move(int ***map, int height, int width, int **startPosition, char dir, int *actualMap, Player *p, int **diedNpcs, int *nbDiedNpcs) {
     int horizontal = 0;
     int vertical = 0;
     switch (dir) {
@@ -76,20 +83,20 @@ void move(int ***map, int height, int width, int **startPosition, char dir, int 
     if (startPosition[*actualMap][0] + vertical < 0  || startPosition[*actualMap][1] + horizontal < 0){
         if(vertical){
             vertical = height-1;
-            checkCase(map, startPosition, vertical, horizontal, actualMap, p);
+            checkCase(map, startPosition, vertical, horizontal, actualMap, p, diedNpcs, nbDiedNpcs);
         }else{
             horizontal = width-1;
-            checkCase(map, startPosition, vertical, horizontal, actualMap, p);
+            checkCase(map, startPosition, vertical, horizontal, actualMap, p, diedNpcs, nbDiedNpcs);
         }
     }else if( startPosition[*actualMap][0] + vertical >= height  || startPosition[*actualMap][1] + horizontal >= width){
         if(vertical){
             vertical = -(height-1);
-            checkCase(map, startPosition, vertical, horizontal, actualMap, p);
+            checkCase(map, startPosition, vertical, horizontal, actualMap, p, diedNpcs, nbDiedNpcs);
         }else{
             horizontal = -(width-1);
-            checkCase(map, startPosition, vertical, horizontal, actualMap, p);
+            checkCase(map, startPosition, vertical, horizontal, actualMap, p, diedNpcs, nbDiedNpcs);
         }
     }else{
-        checkCase(map, startPosition, vertical, horizontal, actualMap, p);
+        checkCase(map, startPosition, vertical, horizontal, actualMap, p, diedNpcs, nbDiedNpcs);
     }
 }

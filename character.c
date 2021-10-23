@@ -185,6 +185,7 @@ void showInventory(Player *p){
         }
     }
 }
+
 Player initPlayer(Player* player){
     player->hp = 100;
     player->hpMax = 100;
