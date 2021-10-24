@@ -78,6 +78,9 @@ int main() {
                         printf("Ce n'est pas une direction valide\n");
                         break;
                 }
+                player->exp += *xpWin;
+                *xpWin = 0;
+                levelUp(player);
                 break;
             case 2:
                 lock +=1;

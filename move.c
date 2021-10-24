@@ -33,9 +33,25 @@ void checkCase(int ***map, int **position, int vertical, int horizontal, int *ac
             return;
         }
     }else if (nextMap == -2 ){
-        *actualMap = *actualMap == 1?0:1;
+        if(p->lvl >= 3) {
+            *actualMap = *actualMap == 1 ? 0 : 1;
+        }else{
+            printf("Vous devez etre au moins niveau 3 pour franchir ce portail ! \n(entrer pour valider)");
+            fflush(stdin);
+            scanf("%*c");
+            printf("\n");
+            fflush(stdin);
+        }
     }else if(nextMap == -3 ){
-        *actualMap = *actualMap == 1?2:1;
+        if(p->lvl >= 7) {
+            *actualMap = *actualMap == 1 ? 2 : 1;
+        }else{
+            printf("Vous devez etre au moins niveau 7 pour franchir ce portail ! \n(entrer pour valider)");
+            fflush(stdin);
+            scanf("%*c");
+            printf("\n");
+            fflush(stdin);
+        }
     }else{
         if(nextMap == 3){
             strcpy(res,"herbe");

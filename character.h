@@ -16,6 +16,7 @@ void addInv(int id,Player* player);
 void removeItem(Player* player, int index);
 void initPlayer(Player* player);
 void showInventory(Player *p);
+void levelUp(Player *p);
 
 
 
