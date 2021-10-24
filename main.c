@@ -8,21 +8,24 @@ int main() {
     srand( time( NULL ) );
     int i;
     int j;
+    int lock = 0;
+    int choice;
     int height[3] = {7+(rand()%10),7+(rand()%10),7+(rand()%10)};
     int width[3] = {7+rand()%10,7+rand()%10,7+rand()%10};
-    int **startPosition = malloc(sizeof(int*) *3);
+    int **currentPos = malloc(sizeof(int*) * 3);
     int ***map = malloc(sizeof(int**)*3);
     int ***diedNpcs = malloc(sizeof(int**) * 3);
     int **nbDiedNpcs = malloc(sizeof(int*) * 3);
+    int startPos[3][2] = {{height[0]/2,width[0]/2},{height[1]/2,width[1]/2},{height[2]/2,width[2]/2}};
     int *xpWin = malloc(sizeof(int));
     *xpWin = 0;
     int *count = malloc(sizeof(int));
     Mob *mobs = declareMobs(count);
     //printMobs(mobs,*count);
     for(i=0;i<3;i++){
-        startPosition[i] = malloc(sizeof(int) * 2);
-        startPosition[i][0] = height[i]/2;
-        startPosition[i][1] = width[i]/2;
+        currentPos[i] = malloc(sizeof(int) * 2);
+        currentPos[i][0] = height[i] / 2;
+        currentPos[i][1] = width[i] / 2;
         map[i] = initMap(width[i],height[i],i+1,&(diedNpcs[i]),&(nbDiedNpcs[i]),mobs,count);
     }
     int game = 3;
@@ -60,16 +63,16 @@ int main() {
                 scanf("%d",&dir);
                 switch (dir) {
                     case 1:
-                        move(map,height[*actualMap],width[*actualMap],startPosition,'l', actualMap, player, diedNpcs[*actualMap],nbDiedNpcs[*actualMap], mobs, *count, xpWin);
+                        move(map, height[*actualMap], width[*actualMap], currentPos, 'l', actualMap, player, diedNpcs[*actualMap], nbDiedNpcs[*actualMap], mobs, *count, xpWin);
                         break;
                     case 2:
-                        move(map,height[*actualMap],width[*actualMap],startPosition,'r', actualMap, player, diedNpcs[*actualMap],nbDiedNpcs[*actualMap], mobs, *count, xpWin);
+                        move(map, height[*actualMap], width[*actualMap], currentPos, 'r', actualMap, player, diedNpcs[*actualMap], nbDiedNpcs[*actualMap], mobs, *count, xpWin);
                         break;
                     case 3:
-                        move(map,height[*actualMap],width[*actualMap],startPosition,'u', actualMap, player, diedNpcs[*actualMap],nbDiedNpcs[*actualMap], mobs, *count, xpWin);
+                        move(map, height[*actualMap], width[*actualMap], currentPos, 'u', actualMap, player, diedNpcs[*actualMap], nbDiedNpcs[*actualMap], mobs, *count, xpWin);
                         break;
                     case 4:
-                        move(map,height[*actualMap],width[*actualMap],startPosition,'d', actualMap, player, diedNpcs[*actualMap],nbDiedNpcs[*actualMap], mobs, *count, xpWin);
+                        move(map, height[*actualMap], width[*actualMap], currentPos, 'd', actualMap, player, diedNpcs[*actualMap], nbDiedNpcs[*actualMap], mobs, *count, xpWin);
                         break;
                     default:
                         printf("Ce n'est pas une direction valide\n");
@@ -77,6 +80,23 @@ int main() {
                 }
                 break;
             case 2:
+                lock +=1;
+                if(lock >= 20){
+                    printf("Vous etes bloque ?\n    1- Oui\n    2- Non\n");
+                    scanf("%d",&choice);
+                    switch (choice) {
+                        case 1:
+                            map[*actualMap][currentPos[*actualMap][0]][currentPos[*actualMap][1]] = 0;
+                            map[*actualMap][startPos[*actualMap][0]][startPos[*actualMap][1]] = 1;
+                            break;
+                        case 2:
+                            break;
+                        default:
+                            printf("Saisir une reponse valide");
+                            break;
+
+                    }
+                }
                 break;
             case 3:
                 showInventory(player);

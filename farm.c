@@ -51,7 +51,7 @@ int collect(Player *p, int caseValue){
     for(j=0;j<10;j++){
         for(i=(caseValue/3)-1;i<3;i++){
             if(caseValue == 4 || caseValue == 7 || caseValue == 10){
-                if(pickaxe[i] == p->inventory[j].id){
+                if(pickaxe[i] == p->inventory[j].id && p->inventory[j].durability > 0){
                     for(k=0;k<times;k++){
                         addInv(itemId,p);
                     }
@@ -65,7 +65,7 @@ int collect(Player *p, int caseValue){
                     return times;
                 }
             }else if(caseValue == 5 || caseValue == 8 || caseValue == 11){
-                if(axe[i] == p->inventory[j].id){
+                if(axe[i] == p->inventory[j].id && p->inventory[j].durability > 0){
                     for(k=0;k<times;k++){
                         addInv(itemId,p);
                     }
@@ -79,7 +79,7 @@ int collect(Player *p, int caseValue){
                     return times;
                 }
             }else if(caseValue == 3 || caseValue == 6 || caseValue == 9){
-                if(billhook[i] == p->inventory[j].id){
+                if(billhook[i] == p->inventory[j].id && p->inventory[j].durability > 0){
                     for(k=0;k<times;k++){
                         addInv(itemId,p);
                     }
