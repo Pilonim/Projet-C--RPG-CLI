@@ -3,5 +3,101 @@
 //
 
 #include "craft.h"
+#include "character.h"
 
+Craft createCraft(int id,char* name,int materOne,int nbMaterOne,int materTwo,int nbMaterTwo,int lvlMin,int itemId){
+    Craft* craft = malloc(sizeof(Craft));
+    craft->id = id;
+    craft->name = malloc(strlen(name));
+    craft->materOne = materOne;
+    craft->nbMaterOne = nbMaterOne;
+    craft->materTwo = materTwo;
+    craft->nbMaterTwo = nbMaterTwo;
+    craft->lvlMin = lvlMin;
+    craft->itemId = itemId;
 
+    return *craft;
+}
+
+Craft* declaredCraft(int* nbCraft){
+    FILE* f = fopen("../craft.txt","r");
+    if (f){
+        int count = 0;
+        char buffer[255];
+        int id;
+        char name[255];
+        int materOne;
+        int nbMaterOne;
+        int materTwo;
+        int nbMaterTwo;
+        int lvlMin;
+        int itemId;
+
+        while (fgets(buffer,sizeof(buffer), f)){
+            count += 1;
+        }
+        Craft* crafts = malloc(sizeof(Craft) * count);
+        rewind(f);
+
+        for (int i = 0; i < count ; i++) {
+            fgets(buffer, sizeof(buffer), f);
+            sscanf(buffer,"id: %d, name: %[^,], materOne: %d, nbMaterOne: %d, materTwo: %d, nbMaterTwo: %d, lvlMin: %d, itemId: %d",&(id),name,&(materOne),&(nbMaterOne),&(materTwo),&(nbMaterTwo),&(lvlMin),&(itemId));
+            crafts[i] = createCraft(id,name,materOne,nbMaterOne,materTwo,nbMaterTwo,lvlMin,itemId);
+        }
+        fclose(f);
+        *nbCraft = count;
+        return crafts;
+
+    } else{
+        printf("No such file");
+        return NULL;
+    }
+}
+
+void isCraftable(Player* player, Craft* crafts, int nbCraft){ //Il faut aussi passer la zone actuelle
+    int materOne;
+    int materTwo;
+    for (int j = 0; j < nbCraft; ++j) {
+        materOne = 0;
+        materTwo = 0;
+        for (int i = 0; i < 10; ++i) {
+            if(player->inventory[i].id == crafts[j].materOne && !materOne){
+                if(player->inventory[i].amount >= crafts[j].nbMaterOne){
+                    materOne = 1;
+                }
+            }
+
+            if(player->inventory[i].id == crafts[j].materTwo && crafts[j].materTwo != 0 && !materTwo){
+                if(player->inventory[i].amount >= crafts[j].nbMaterTwo){
+                    materTwo = 1;
+                }
+            } else if(crafts[j].materTwo == 0){
+                materTwo = 1;
+            }
+
+            if(materOne && materTwo){
+                printf("Craft disponibles : \n");
+                printf("%d : %s\n", crafts[j].id,crafts[j].name);
+            }
+        }
+    }
+}
+
+void craft(Player* player, Craft* crafts, int idCraft){
+    for (int i = 0; i < 10; ++i) {
+        if(player->inventory[i].id == crafts[idCraft-1].materOne){
+            player->inventory[i].amount -= crafts[idCraft-1].nbMaterOne;
+            if(player->inventory[i].amount <= 0){
+                removeItem(player, i);
+            }
+        }
+
+        if(player->inventory[i].id == crafts[idCraft-1].materTwo){
+            player->inventory[i].amount -= crafts[idCraft-1].nbMaterTwo;
+            if(player->inventory[i].amount <= 0){
+                removeItem(player, i);
+            }
+        }
+    }
+    addInv(crafts->itemId,player);
+}

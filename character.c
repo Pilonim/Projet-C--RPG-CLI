@@ -168,6 +168,12 @@ void removeItem(Player* player, int index){
     }
 }
 
+void showPlayer(Player* player){
+    printf("hp : %d / %d\n", player->hp,player->hpMax);
+    printf("exp : %d / %d", player->exp,player->expMax);
+    printf("lvl : %d", player->lvl);
+}
+
 
 Player initPlayer(Player* player){
     player->hp = 100;
