@@ -1,0 +1,25 @@
+id: 1, name: Epee en bois, materOne: 5, nbMaterOne: 3, materTwo: 0, nbMaterTwo: 0, lvlMin: 1, itemId: 1
+id: 2, name: Epee en pierre, materOne: 5, nbMaterOne: 2, materTwo: 6, nbMaterTwo: 3, lvlMin: 1, itemId: 8
+id: 3, name: Epee en fer, materOne: 16, nbMaterOne: 2, materTwo: 17, nbMaterTwo: 4, lvlMin: 2, itemId: 19
+id: 4, name: Epee en diamant, materOne: 27, nbMaterOne: 2, materTwo: 29, nbMaterTwo: 5, lvlMin: 3, itemId: 30
+id: 5, name: Lance en pierre, materOne: 5, nbMaterOne: 3, materTwo: 6, nbMaterTwo: 4, lvlMin: 1, itemId: 9
+id: 6, name: Lance en fer, materOne: 16, nbMaterOne: 3, materTwo: 17, nbMaterTwo: 5, lvlMin: 2, itemId: 20
+id: 7, name: Lance en diamant, materOne: 27, nbMaterOne: 3, materTwo: 29, nbMaterTwo: 6, lvlMin: 3, itemId: 31
+id: 8, name: Marteau en pierre, materOne: 5, nbMaterOne: 2, materTwo: 6, nbMaterTwo: 6, lvlMin: 1, itemId: 10
+id: 9, name: Marteau en fer, materOne: 5, nbMaterOne: 3, materTwo: 0, nbMaterTwo: 0, lvlMin: 2, itemId: 21
+id: 10, name: Marteau en diamant, materOne: 5, nbMaterOne: 3, materTwo: 0, nbMaterTwo: 0, lvlMin: 3, itemId: 32
+id: 11, name: Plastron en pierre , materOne: 6, nbMaterOne: 10, materTwo: 0, nbMaterTwo: 0, lvlMin: 1, itemId: 11
+id: 12, name: Plastron en fer , materOne: 17, nbMaterOne: 12, materTwo: 0, nbMaterTwo: 0, lvlMin: 2, itemId: 22
+id: 13, name: Plastron en diamant , materOne: 29, nbMaterOne: 16, materTwo: 0, nbMaterTwo: 0, lvlMin: 3, itemId: 33
+id: 14, name: Pioche en bois, materOne: 5, nbMaterOne: 3, materTwo: 0, nbMaterTwo: 0, lvlMin: 1, itemId: 2
+id: 15, name: Pioche en pierre, materOne: 5, nbMaterOne: 2, materTwo: 6, nbMaterTwo: 3, lvlMin: 1, itemId: 12
+id: 16, name: Pioche en fer, materOne: 16, nbMaterOne: 2, materTwo: 17, nbMaterTwo: 4, lvlMin: 2, itemId: 23
+id: 17, name: Hache en bois, materOne: 5, nbMaterOne: 3, materTwo: 0, nbMaterTwo: 0, lvlMin: 1, itemId: 4
+id: 18, name: Hache en pierre , materOne: 5, nbMaterOne: 2, materTwo: 6, nbMaterTwo: 3, lvlMin: 1, itemId: 14
+id: 19, name: Hache en fer, materOne: 16, nbMaterOne: 2, materTwo: 17, nbMaterTwo: 4, lvlMin: 2, itemId: 25
+id: 20, name: Serpe en bois, materOne: 5, nbMaterOne: 3, materTwo: 0, nbMaterTwo: 0, lvlMin: 1, itemId: 3
+id: 21, name: Serpe en pierre, materOne: 5, nbMaterOne: 2, materTwo: 6, nbMaterTwo: 3, lvlMin: 1, itemId: 13
+id: 22, name: Serpe en fer, materOne: 16, nbMaterOne: 2, materTwo: 17, nbMaterTwo: 4, lvlMin: 2, itemId: 24
+id: 23, name: Potion de vie I, materOne: 7, nbMaterOne: 2, materTwo: 0, nbMaterTwo: 0, lvlMin: 1, itemId: 15
+id: 24, name: Potion de vie II, materOne: 18, nbMaterOne: 2, materTwo: 0, nbMaterTwo: 0, lvlMin: 2, itemId: 26
+id: 25, name: Potion de vie III, materOne: 29, nbMaterOne: 2, materTwo: 0, nbMaterTwo: 0, lvlMin: 3, itemId: 34

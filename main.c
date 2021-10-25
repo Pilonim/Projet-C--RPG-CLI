@@ -2,6 +2,7 @@
 #include "move.h"
 #include "mobs.h"
 #include "character.h"
+#include "craft.h"
 
 int main() {
     int i;
