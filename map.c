@@ -43,11 +43,13 @@ int **mapGen(int height, int width, int *npc, int npcSize, int ***diedNpcs, int 
     startWidth = width/2;
     startHeight = height/2 ;
     map[startHeight][startWidth] = 0;
-    while(nbZero < width*height*0.8){
+    while(nbZero < width*height * 0.8){
         i = rand()%height;
         j = rand()%width;
-        if(map[i][j] == 0) {
-
+        /*if((map[i-1][j] == 0 || map[i+1][j] == 0 || map[i][j-1] == 0 || map[i][j+1] == 0) && map[i][j] == -1) {
+            nbZero += 1;
+            map[i][j] = 0;*/
+        if(map[i][j] == 0){
             value = rand() % 4;
             switch (value) {
                 case 0:
@@ -168,7 +170,6 @@ int** initMap(int width, int height, int stage, int ***diedNpcs, int **nbDiedNpc
                     k = -1;
                 }
             }
-            printf("%d\n",find);
         }
         count+=1;
         if(count % ((nbNpc/4)-1) == 0){
