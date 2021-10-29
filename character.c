@@ -86,7 +86,7 @@ void addInv(int id,Player* player){
             player->inventory[i] = createItem(15,"Potion de vie I", SOIN, 0,0, 30);
             break;
         case 16 :
-            player->inventory[i] = createItem(16,"Hêtre", CRAFT, 0,0, 0);
+            player->inventory[i] = createItem(16,"Hetre", CRAFT, 0,0, 0);
             break;
         case 17 :
             player->inventory[i] = createItem(17,"Fer", CRAFT, 0,0, 0);
@@ -151,11 +151,18 @@ void addInv(int id,Player* player){
 
 }
 
-void removeItem(Player* player, int index){
+void removeItem(Player* player, int index, int nbItem){
     int choice = 0;
-    if(player->inventory[index].amount == 1){
+    if(player->inventory[index].amount <= 1){
         player->inventory[index] = createItem(0, "", 0, 0, 0, 0);
         player->nbItem -= 1;
+    } else if(nbItem){
+        player->inventory[index].amount -= nbItem;
+
+        if (player->inventory[index].amount <= 0) {
+            player->inventory[index] = createItem(0, "", 0, 0, 0, 0);
+            player->nbItem -= 1;
+        }
     } else {
         printf("Combien d\'item voulez-vous supprimmer : \n");
         scanf("%d",&choice);
@@ -175,7 +182,9 @@ void showPlayer(Player* player){
 }
 
 
-Player initPlayer(Player* player){
+Player initPlayer(){
+    Player* player = malloc(sizeof(Player));
+
     player->hp = 100;
     player->hpMax = 100;
     player->exp = 0;
@@ -191,4 +200,6 @@ Player initPlayer(Player* player){
     addInv(2, player);
     addInv(3, player);
     addInv(4, player);
+
+    return *player;
 }

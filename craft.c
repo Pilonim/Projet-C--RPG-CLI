@@ -57,17 +57,19 @@ Craft* declaredCraft(int* nbCraft){
 void isCraftable(Player* player, Craft* crafts, int nbCraft){ //Il faut aussi passer la zone actuelle
     int materOne;
     int materTwo;
+    int count = 0;
+    printf("Craft disponibles : \n");
     for (int j = 0; j < nbCraft; ++j) {
         materOne = 0;
         materTwo = 0;
         for (int i = 0; i < 10; ++i) {
-            if(player->inventory[i].id == crafts[j].materOne && !materOne){
+            if(player->inventory[i].id == crafts[j].materOne && !materOne){ //check de la zone
                 if(player->inventory[i].amount >= crafts[j].nbMaterOne){
                     materOne = 1;
                 }
             }
 
-            if(player->inventory[i].id == crafts[j].materTwo && crafts[j].materTwo != 0 && !materTwo){
+            if(player->inventory[i].id == crafts[j].materTwo && crafts[j].materTwo != 0 && !materTwo){ //check de la zone
                 if(player->inventory[i].amount >= crafts[j].nbMaterTwo){
                     materTwo = 1;
                 }
@@ -76,27 +78,24 @@ void isCraftable(Player* player, Craft* crafts, int nbCraft){ //Il faut aussi pa
             }
 
             if(materOne && materTwo){
-                printf("Craft disponibles : \n");
+                count += 1;
                 printf("%d : %s\n", crafts[j].id,crafts[j].name);
             }
         }
+    }
+    if(count == 0){
+        printf("Aucun\n");
     }
 }
 
 void craft(Player* player, Craft* crafts, int idCraft){
     for (int i = 0; i < 10; ++i) {
         if(player->inventory[i].id == crafts[idCraft-1].materOne){
-            player->inventory[i].amount -= crafts[idCraft-1].nbMaterOne;
-            if(player->inventory[i].amount <= 0){
-                removeItem(player, i);
-            }
+            removeItem(player, i,crafts[idCraft-1].nbMaterOne);
         }
 
         if(player->inventory[i].id == crafts[idCraft-1].materTwo){
-            player->inventory[i].amount -= crafts[idCraft-1].nbMaterTwo;
-            if(player->inventory[i].amount <= 0){
-                removeItem(player, i);
-            }
+            removeItem(player, i,crafts[idCraft-1].nbMaterTwo);
         }
     }
     addInv(crafts->itemId,player);
