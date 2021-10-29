@@ -43,13 +43,61 @@ int **mapGen(int height, int width, int *npc, int npcSize, int ***diedNpcs, int 
     startWidth = width/2;
     startHeight = height/2 ;
     map[startHeight][startWidth] = 0;
-    while(nbZero < width*height * 0.8){
+    while(nbZero < width*height * 0.7){
         i = rand()%height;
         j = rand()%width;
-        /*if((map[i-1][j] == 0 || map[i+1][j] == 0 || map[i][j-1] == 0 || map[i][j+1] == 0) && map[i][j] == -1) {
-            nbZero += 1;
-            map[i][j] = 0;*/
-        if(map[i][j] == 0){
+        if (i == 0){
+            if(j == 0){
+                if( (map[i+1][j] == 0 || map[i][j+1] == 0) && map[i][j] == -1)  {
+                    nbZero += 1;
+                    map[i][j] = 0;
+                }
+            }else if(j == width-1){
+                if( ( map[i+1][j] == 0 || map[i][j-1] == 0 ) && map[i][j] == -1)  {
+                    nbZero += 1;
+                    map[i][j] = 0;
+                }
+            }else{
+                if( (map[i+1][j] == 0 || map[i][j-1] == 0 || map[i][j+1] == 0) && map[i][j] == -1)  {
+                    nbZero += 1;
+                    map[i][j] = 0;
+                }
+            }
+        }else if(i == height-1){
+            if(j == 0){
+                if( (map[i-1][j] == 0 ||  map[i][j+1] == 0) && map[i][j] == -1)  {
+                    nbZero += 1;
+                    map[i][j] = 0;
+                }
+            }else if(j == width-1){
+                if( (map[i-1][j] == 0 ||  map[i][j-1] == 0) && map[i][j] == -1)  {
+                    nbZero += 1;
+                    map[i][j] = 0;
+                }
+            }else{
+                if( (map[i-1][j] == 0 || map[i][j-1] == 0 || map[i][j+1] == 0) && map[i][j] == -1)  {
+                    nbZero += 1;
+                    map[i][j] = 0;
+                }
+            }
+        }else if(j == 0){
+            if( (map[i-1][j] == 0 || map[i+1][j] == 0 || map[i][j+1] == 0) && map[i][j] == -1)  {
+                nbZero += 1;
+                map[i][j] = 0;
+            }
+        }else if(j == width-1){
+            if( (map[i-1][j] == 0 || map[i+1][j] == 0 || map[i][j-1] == 0) && map[i][j] == -1)  {
+                nbZero += 1;
+                map[i][j] = 0;
+            }
+        }else{
+            if( (map[i-1][j] == 0 || map[i+1][j] == 0 || map[i][j-1] == 0 || map[i][j+1] == 0) && map[i][j] == -1)  {
+                nbZero += 1;
+                map[i][j] = 0;
+            }
+        }
+
+        /*if(map[i][j] == 0){
             value = rand() % 4;
             switch (value) {
                 case 0:
@@ -84,8 +132,8 @@ int **mapGen(int height, int width, int *npc, int npcSize, int ***diedNpcs, int 
                         }
                     }
                     break;
-            }
-        }
+            }*/
+
     }
     count = 0;
     map[startHeight][startWidth] = 1;

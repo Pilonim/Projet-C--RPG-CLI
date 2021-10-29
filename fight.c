@@ -251,7 +251,6 @@ int fight(Player *p, Mob *mob, int mobId, int nbMobs){
     int *chosenChest = malloc(sizeof(int));
     int choice;
     srand(time(NULL));
-    int i=0;
     initStuff(nbWeapons,nbChest,nbPotions,&weapons,&potions,&chest,p,count);
     firstStuff(nbWeapons,nbChest,weapons,chest,chosenWeapon,chosenChest,p);
     startFight(mob,nbMobs,mobId,currentMob,mobHp,nbWeapons,p,chosenWeapon,nbChest,armor,chosenChest);

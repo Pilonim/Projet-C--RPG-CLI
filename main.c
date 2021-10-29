@@ -78,6 +78,14 @@ int main() {
                         printf("Ce n'est pas une direction valide\n");
                         break;
                 }
+                if(*xpWin == -1){
+                    break;
+                }
+                if(*actualMap == 1 && player->lvl > 3 ){
+                    *xpWin = 0;
+                }else if(*actualMap == 2 && player->lvl > 7){
+                    *xpWin = 0;
+                }
                 player->exp += *xpWin;
                 *xpWin = 0;
                 levelUp(player);
