@@ -7,7 +7,7 @@
 Mob createMob(int id, char *name, int damages, int xp, double hp, int stage){
     Mob *mob = malloc(sizeof(Mob));
     mob->id = id;
-    mob->name = malloc(strlen(name));
+    mob->name = malloc(strlen(name)+1);
     strcpy(mob->name,name);
     mob->damages = damages;
     mob->xp = xp;
