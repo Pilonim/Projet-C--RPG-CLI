@@ -192,7 +192,7 @@ void initPlayer(Player* player){
     player->hp = 100;
     player->hpMax = 100;
     player->exp = 0;
-    player->lvl = 1;
+    player->lvl = 10;
     player->nbItem = 0;
     Item item = createItem(0,"",0,0,0,0);
 
@@ -201,13 +201,14 @@ void initPlayer(Player* player){
     }
 
     addInv(1, player);
+    addInv(1, player);
+    addInv(1, player);
+    addInv(1, player);
     addInv(2, player);
     addInv(3, player);
     addInv(4, player);
     addInv(15,player);
     addInv(33,player);
-    addInv(11,player);
-    addInv(26,player);
 }
 
 void levelUp(Player *p){

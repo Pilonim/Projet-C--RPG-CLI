@@ -20,7 +20,7 @@ void shuffle(int *array, size_t n)
     }
 }
 
-int **mapGen(int height, int width, int *npc, int npcSize, int ***diedNpcs, int **nbDiedNpcs, Mob *mobs, int *nbMobs){
+int **mapGen(int height, int width, int *npc, int npcSize, int ***diedNpcs, int *nbDiedNpcs, int stage, int *currentPos){
     int i;
     int j;
     int startWidth;
@@ -136,7 +136,9 @@ int **mapGen(int height, int width, int *npc, int npcSize, int ***diedNpcs, int 
 
     }
     count = 0;
-    map[startHeight][startWidth] = 1;
+
+    map[startHeight][startWidth] = stage == 1?1:0;
+    //map[startHeight][startWidth] = 1;
 
     for(i=0;i<height;i++){
 
@@ -147,7 +149,17 @@ int **mapGen(int height, int width, int *npc, int npcSize, int ***diedNpcs, int 
                     (*diedNpcs)[count][0] = i;
                     (*diedNpcs)[count][1] = j;
                     (*diedNpcs)[count][2] = npc[count];
+                    (*diedNpcs)[count][3] = 0;
                     (*diedNpcs)[count][4] = 0;
+                    if((stage == 2 && npc[count] == -2) || (stage == 3 && npc[count] == -3)) {
+                        currentPos[0] = i;
+                        currentPos[1] = j+1;
+                        if(j == width-1){
+                            map[i][j-1] = 1;
+                        }else{
+                            map[i][j+1] = 1;
+                        }
+                    }
                     count++;
                 }
                 if(count == npcSize || count == nbZero){
@@ -162,12 +174,11 @@ int **mapGen(int height, int width, int *npc, int npcSize, int ***diedNpcs, int 
             i = -1;
         }
     }
-    *nbDiedNpcs = malloc(sizeof(int));
-    **nbDiedNpcs = count;
+    nbDiedNpcs[0] = count;
     return map;
 }
 
-int** initMap(int width, int height, int stage, int ***diedNpcs, int **nbDiedNpcs, Mob *mobs,int *nbMobs){
+int** initMap(int width, int height, int stage, int ***diedNpcs, int *nbDiedNpcs, Mob *mobs,int *nbMobs, int *currentPos){
     srand( time( NULL ) );
     int stage1[5] = {3,4,5,0};
     int stage2[5] = {6,7,8,0};
@@ -227,7 +238,7 @@ int** initMap(int width, int height, int stage, int ***diedNpcs, int **nbDiedNpc
     if(stage == 3)
         npc[nbNpc-1] = 99;
     shuffle(npc,nbNpc);
-    return mapGen(height,width,npc,nbNpc,diedNpcs,nbDiedNpcs,mobs,nbMobs);
+    return mapGen(height,width,npc,nbNpc,diedNpcs,nbDiedNpcs,stage,currentPos);
 }
 
 /*for (i = 0; i < height; i++) {
