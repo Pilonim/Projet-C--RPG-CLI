@@ -187,12 +187,28 @@ int** initMap(int width, int height, int stage, int ***diedNpcs, int *nbDiedNpcs
     int nbStage = 0;
     int i;
     int k;
+    int nbMobsStaged = 0;
+    int random;
+    int *mobsStaged;
     int find = 0;
     int nbNpc = ((height*width)/4);
     int *npc = malloc(nbNpc*sizeof(int));
     *diedNpcs = malloc(sizeof(int*) * nbNpc);
     for(i=0;i<nbNpc;i++){
         (*diedNpcs)[i] = malloc(sizeof(int)*5);
+    }
+    for(i=0;i<*nbMobs;i++) {
+        if (mobs[i].stage == stage) {
+            nbMobsStaged += 1;
+        }
+    }
+    count = nbMobsStaged;
+    mobsStaged = malloc(sizeof(int) * nbMobsStaged);
+    for(i=0;i<*nbMobs;i++){
+        if(mobs[i].stage == stage) {
+            mobsStaged[count - 1] = mobs[i].id;
+            count -= 1;
+        }
     }
     if(stage == 1) {
         npc[0] = 2;
@@ -216,19 +232,8 @@ int** initMap(int width, int height, int stage, int ***diedNpcs, int *nbDiedNpcs
         else if(nbStage < 3 && stage == 3)
             npc[i] = stage3[nbStage];
         else {
-
-            for (k = find; k < *nbMobs; k++) {
-                if (mobs[k].stage == stage) {
-                    npc[i] = mobs[k].id;
-                    find = k+1;
-                    break;
-                }
-                find += 1;
-                if (find == (*nbMobs)) {
-                    find = 0;
-                    k = -1;
-                }
-            }
+            random = rand() % nbMobsStaged;
+            npc[i] = mobsStaged[random];
         }
         count+=1;
         if(count % ((nbNpc/4)-1) == 0){

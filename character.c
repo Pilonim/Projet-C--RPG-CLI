@@ -208,7 +208,7 @@ void initPlayer(Player* player){
     addInv(3, player);
     addInv(4, player);
     addInv(15,player);
-    addInv(33,player);
+    addInv(32,player);
 }
 
 void levelUp(Player *p){

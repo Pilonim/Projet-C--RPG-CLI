@@ -97,7 +97,7 @@ void attack(Player *p, int *chosenWeapon, double *mobHp, int *nbWeapons, int *co
     int choice;
     if(p->inventory[*chosenWeapon].durability > 0) {
         *mobHp -= p->inventory[*chosenWeapon].effect;
-        mobHp = mobHp < 0 ? 0 : mobHp;
+        *mobHp = *mobHp < 0 ? 0 : *mobHp;
         printf("Vous infligez %0.1lf domages au monstre, il lui reste : %0.1lf points de vie\n",p->inventory[*chosenWeapon].effect, *mobHp);
         p->inventory[*chosenWeapon].durability -= 1;
     }else{
