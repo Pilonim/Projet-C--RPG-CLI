@@ -5,7 +5,7 @@
 #include "character.h"
 
 
-Item createItem(int id, char* name, int type, int durability,int maxDurability, double effect){
+Item createItem(int id, char* name, int type, double durability,double maxDurability, double effect){
     Item* newItem = malloc(sizeof(Item));
     newItem->id = id;
     strcpy(newItem->name,name);
@@ -18,7 +18,40 @@ Item createItem(int id, char* name, int type, int durability,int maxDurability, 
     return *newItem;
 }
 
-void addInv(int id,Player* player){
+Item* declareItem(int* nbItem){
+    FILE* f = fopen("../item.txt","r+");
+    if (f) {
+        int count = 0;
+        char buffer[255];
+        int id;
+        char name[255];
+        int type;
+        double durability;
+        double maxDurability;
+        double effect;
+
+        while (fgets(buffer, sizeof(buffer), f)) {
+            count += 1;
+        }
+        Item *items = malloc(sizeof(Craft) * count);
+        rewind(f);
+
+        for (int i = 0; i < count; i++) {
+            fgets(buffer, sizeof(buffer), f);
+            sscanf(buffer, "id: %d, name: %[^,], type: %d, durability: %lf, maxDurability: %lf, effect: %lf", &(id),
+                   name, &(type), &(durability),&(maxDurability), &(effect));
+            items[i] = createItem(id, name, type, durability, maxDurability, effect);
+        }
+        fclose(f);
+        *nbItem = count;
+        return items;
+    } else {
+        printf("No such file");
+        return NULL;
+    }
+}
+
+void addInv(int id,Player* player,Item* items){
     int i = 0;
 
     for (int j = 0; j < 10; ++j) {
@@ -39,6 +72,8 @@ void addInv(int id,Player* player){
             break;
     }
 
+    player->inventory[i] = createItem(items[id].id,items[id].name,items[id].type,items[id].durability,items[id].maxDurability,items[id].effect);
+    /*
     switch (id) {
         case 1 :
             player->inventory[i] = createItem(1,"épée en bois", ARME, 10,10, 1);
@@ -146,7 +181,7 @@ void addInv(int id,Player* player){
             printf("not an item");
             break;
     }
-
+*/
     player->nbItem  +=1;
 
 }
@@ -182,7 +217,7 @@ void showPlayer(Player* player){
 }
 
 
-Player initPlayer(){
+Player initPlayer(Item items){
     Player* player = malloc(sizeof(Player));
 
     player->hp = 100;
@@ -196,10 +231,10 @@ Player initPlayer(){
         player->inventory[i] = item;
     }
 
-    addInv(1, player);
-    addInv(2, player);
-    addInv(3, player);
-    addInv(4, player);
+    addInv(1, player, &items);
+    addInv(2, player, &items);
+    addInv(3, player, &items);
+    addInv(4, player, &items);
 
     return *player;
 }

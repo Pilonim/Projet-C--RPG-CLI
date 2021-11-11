@@ -19,8 +19,8 @@ Craft createCraft(int id,char* name,int materOne,int nbMaterOne,int materTwo,int
     return *craft;
 }
 
-Craft* declaredCraft(int* nbCraft){
-    FILE* f = fopen("../craft.txt","r");
+Craft* declareCraft(int* nbCraft){
+    FILE* f = fopen("../craft.txt","r+");
     if (f){
         int count = 0;
         char buffer[255];
@@ -54,7 +54,7 @@ Craft* declaredCraft(int* nbCraft){
     }
 }
 
-void isCraftable(Player* player, Craft* crafts, int nbCraft){ //Il faut aussi passer la zone actuelle
+void isCraftable(Player* player, Craft* crafts, int nbCraft,Item* items, int* actualMap){
     int materOne;
     int materTwo;
     int count = 0;
@@ -77,10 +77,11 @@ void isCraftable(Player* player, Craft* crafts, int nbCraft){ //Il faut aussi pa
                 materTwo = 1;
             }
 
-            if(materOne && materTwo){
-                count += 1;
-                printf("%d : %s\n", crafts[j].id,crafts[j].name);
-            }
+
+        }
+        if(materOne && materTwo){
+            count += 1;
+            printf("%d : %s\n", crafts[j].id,crafts[j].name);
         }
     }
     if(count == 0){
@@ -88,7 +89,7 @@ void isCraftable(Player* player, Craft* crafts, int nbCraft){ //Il faut aussi pa
     }
 }
 
-void craft(Player* player, Craft* crafts, int idCraft){
+void craft(Player* player, Craft* crafts, int idCraft,Item* items){
     for (int i = 0; i < 10; ++i) {
         if(player->inventory[i].id == crafts[idCraft-1].materOne){
             removeItem(player, i,crafts[idCraft-1].nbMaterOne);
@@ -98,5 +99,5 @@ void craft(Player* player, Craft* crafts, int idCraft){
             removeItem(player, i,crafts[idCraft-1].nbMaterTwo);
         }
     }
-    addInv(crafts->itemId,player);
+    addInv(crafts->itemId,player,items);
 }

@@ -15,10 +15,11 @@ int main() {
     int **map = initMap(height,width,1);
     int game;
     int dir;
-    Player* player = malloc(sizeof(Player));
-    initPlayer(player);
     int *count = malloc(sizeof(int));
     Mob *mobs = declareMobs(count);
+    int* itemCount = malloc(sizeof(int));
+    Item* items = declareItem(itemCount);
+    Player player = initPlayer(items);
     for(i = 0 ;i< *(count);i++) {
         printf("%d %s %d %d %d\n", mobs[i].id, mobs[i].name, mobs[i].damages, mobs[i].xp, mobs[i].hp);
     }
