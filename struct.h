@@ -14,11 +14,22 @@ typedef struct Item{
     int amount;
 } Item;
 
+typedef struct Craft{
+    int id;
+    char* name;
+    int materOne;
+    int nbMaterOne;
+    int materTwo;
+    int nbMaterTwo;
+    int lvlMin;
+    int itemId;
+} Craft;
 
 typedef struct Player{
     int hp;
     int hpMax;
     int exp;
+    int expMax;
     int lvl;
     Item inventory[10];
     int nbItem;
