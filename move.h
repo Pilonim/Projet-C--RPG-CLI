@@ -7,6 +7,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-void move(int **map, int height, int width, int *startPosition, char dir);
-void checkCase(int **map, int *position, int vertical, int horizontal);
+#include "farm.h"
+#include "fight.h"
+void move(int ***map, int height, int width, int **startPosition, char dir, int *actualMap, Player *p, int **diedNpcs, int *nbDiedNpcs, Mob *mobs, int nbMobs, int *xpWin, int *onPortal);
+void checkCase(int ***map, int **position, int vertical, int horizontal, int *actualMap, Player *p, int **diedNpcs, int *nbDiedNpcs, Mob *mobs, int nbMobs, int *xpWin, int *onPortal);
 #endif //PROJET_C___JEU_2D_MOVE_H

@@ -15,13 +15,14 @@
 #define SOIN 4
 #define ARMURE 5
 
+void levelUp(Player *p);
 Item* declareItem(int* nbItem);
 Item createItem(int id, char* name, int type, double durability,double maxDurability, double effect);
 void addInv(int id,Player* player,Item* items);
 void removeItem(Player* player, int index,int nbItem);
 void showPlayer(Player* player);
-Player initPlayer(Item items);
 void showInventory(Player *p);
+Player initPlayer(Item items);
 
 
 

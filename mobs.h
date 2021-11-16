@@ -8,14 +8,9 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-typedef struct mob_s{
-    int id;
-    char *name;
-    int damages;
-    int xp;
-    int hp;
-}Mob;
+#include "struct.h"
 
 Mob *declareMobs(int *nbMobs);
-Mob createMob(int id, char *name, int damages, int xp, int hp);
+Mob createMob(int id, char *name, int damages, int xp, double hp, int stage);
+void printMobs(Mob *mobs, int nbMobs);
 #endif //PROJET_C___JEU_2D_MOBS_H

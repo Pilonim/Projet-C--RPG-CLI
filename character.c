@@ -213,28 +213,22 @@ void removeItem(Player* player, int index, int nbItem){
 
 void showInventory(Player *p){
     int i;
-        if(p->inventory[i].id != 0){
     for(i=0;i<10;i++){
+        if(p->inventory[i].id != 0){
             if(p->inventory[i].type == CRAFT){
-            }else if(p->inventory[i].type == OUTIL){
                 printf("index : %d // nom : %s // quantite : %d\n",i,p->inventory[i].name,p->inventory[i].amount);
                 printf("index : %d // nom : %s // durabilite : %0.1lf\n",i,p->inventory[i].name,p->inventory[i].durability);
-                printf("index : %d // nom : %s // degats : %0.1lf // durabilite : %0.1lf\n",i,p->inventory[i].name,p->inventory[i].effect,p->inventory[i].durability);
+            }else if(p->inventory[i].type == OUTIL){
             }else if(p->inventory[i].type == ARME){
             }else if(p->inventory[i].type == ARMURE){
+                printf("index : %d // nom : %s // degats : %0.1lf // durabilite : %0.1lf\n",i,p->inventory[i].name,p->inventory[i].effect,p->inventory[i].durability);
             }else if(p->inventory[i].type == SOIN) {
                 printf("index : %d // nom : %s // armure : %lf\n",i,p->inventory[i].name,p->inventory[i].effect);
                 printf("index : %d // nom : %s // soin : %lf hp\n",i,p->inventory[i].name,p->inventory[i].effect);
             }
-    }
+        }
     }
 }
-void showPlayer(Player* player){
-    printf("hp : %d / %d\n", player->hp,player->hpMax);
-    printf("exp : %d / %d", player->exp,player->expMax);
-    printf("lvl : %d", player->lvl);
-}
-
 
 Player initPlayer(Item items){
     Player* player = malloc(sizeof(Player));
@@ -242,7 +236,7 @@ Player initPlayer(Item items){
     player->hp = 100;
     player->hpMax = 100;
     player->exp = 0;
-    player->lvl = 1;
+    player->lvl = 10;
     player->nbItem = 0;
     Item item = createItem(0,"",0,0,0,0);
 
@@ -256,4 +250,76 @@ Player initPlayer(Item items){
     addInv(4, player, &items);
 
     return *player;
+}
+
+void levelUp(Player *p){
+    int check = 0;
+    int i;
+    if(p->exp >=100 && p->lvl == 1 ){
+        p->lvl = 2;
+        p->exp -= 100;
+        p->hpMax += 10;
+        check = 1;
+    }
+    if(p->exp >=200 && p->lvl == 2 ){
+        p->lvl = 3;
+        p->exp -= 200;
+        p->hpMax += 20;
+        check = 1;
+    }
+    if(p->exp >=300 && p->lvl == 3 ){
+        p->lvl = 4;
+        p->exp -= 300;
+        p->hpMax += 30;
+        check = 1;
+    }
+    if(p->exp >=400 && p->lvl == 4 ){
+        p->lvl = 5;
+        p->exp -= 400;
+        p->hpMax += 40;
+        check = 1;
+    }
+    if(p->exp >=500 && p->lvl == 5 ){
+        p->lvl = 6;
+        p->exp -= 500;
+        p->hpMax += 50;
+        check = 1;
+    }
+    if(p->exp >=600 && p->lvl == 6 ){
+        p->lvl = 7;
+        p->exp -= 600;
+        p->hpMax += 50;
+        check = 1;
+    }
+    if(p->exp >=700 && p->lvl == 7 ){
+        p->lvl = 8;
+        p->exp -= 700;
+        p->hpMax += 50;
+        check = 1;
+    }
+    if(p->exp >=800 && p->lvl == 8 ){
+        p->lvl = 9;
+        p->exp -= 800;
+        p->hpMax += 75;
+        check = 1;
+    }
+    if(p->exp >=900 && p->lvl == 9 ){
+        p->lvl = 10;
+        p->exp = 0;
+        p->hpMax += 75;
+        check = 1;
+    }
+    if(check) {
+        p->hp = p->hpMax;
+        if (p->lvl == 10) {
+            printf("BRAVO VOUS ETES NIVEAU MAX ! (%d)\n", 10);
+        } else {
+            printf("Felicitation vous avez gagner un niveau ! Vous etes desormais niveau : %d\n", p->lvl);
+        }
+        printf("(Appuyez sur entrer pour continuer)\n");
+        fflush(stdin);
+        scanf("%*c");
+        printf("\n");
+        fflush(stdin);
+    }
 }
