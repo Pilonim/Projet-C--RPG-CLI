@@ -7,98 +7,109 @@
 
 int main() {
     srand( time( NULL ) );
+    Game *game = malloc(sizeof(Game));
     int i;
     int j;
     int lock = 0;
-    int *onPortal = malloc(sizeof(int));
-    *onPortal = 0;
+    game->onPortal = malloc(sizeof(int));
+    *(game->onPortal) = 0;
     int choice;
-    int height[3] = {7+(rand()%10),7+(rand()%10),7+(rand()%10)};
-    int width[3] = {7+rand()%10,7+rand()%10,7+rand()%10};
-    int **currentPos = malloc(sizeof(int*) * 3);
-    int ***map = malloc(sizeof(int**)*3);
-    int ***diedNpcs = malloc(sizeof(int**) * 3);
-    int **nbDiedNpcs = malloc(sizeof(int*) * 3);
-    int startPos[3][2] = {{height[0]/2,width[0]/2},{height[1]/2,width[1]/2},{height[2]/2,width[2]/2}};
-    int *xpWin = malloc(sizeof(int));
-    *xpWin = 0;
-    int *count = malloc(sizeof(int));
-    Mob *mobs = declareMobs(count);
+    for(i=0;i<3;i++){
+        game->height[i] = 7+(rand()%10);
+        game->width[i] = 7+(rand()%10);
+        game->startPos[i][0] = game->height[i]/2;
+        game->startPos[i][1] = game->width[i]/2;
+    }
+    /*int height[3] = {7+rand()%10,7+rand()%10,7+rand()%10};
+    int width[3] = {7+rand()%10,7+rand()%10,7+rand()%10};*/
+    game->currentPos = malloc(sizeof(int*) * 3);
+    game->map = malloc(sizeof(int**)*3);
+    game->diedNpcs = malloc(sizeof(int**) * 3);
+    game->nbDiedNpcs = malloc(sizeof(int*) * 3);
+    //game->startPos = {{height[0]/2,width[0]/2},{height[1]/2,width[1]/2},{height[2]/2,width[2]/2}};
+    game->xpWin = malloc(sizeof(int));
+    *(game->xpWin) = 0;
+    game->mobCount = malloc(sizeof(int));
+    game->currentMap = malloc(sizeof (int));
+    *(game->currentMap) = 0;
+    game->mobs = declareMobs(game->mobCount);
     //printMobs(mobs,*count);
     for(i=0;i<3;i++){
-        currentPos[i] = malloc(sizeof(int) * 2);
-        currentPos[i][0] = height[i] / 2;
-        currentPos[i][1] = width[i] / 2;
-        nbDiedNpcs[i] = malloc(sizeof(int));
-        map[i] = initMap(width[i],height[i],i+1,&(diedNpcs[i]),nbDiedNpcs[i],mobs,count,currentPos[i]);
+        game->currentPos[i] = malloc(sizeof(int) * 2);
+        game->currentPos[i][0] = game->height[i] / 2;
+        game->currentPos[i][1] = game->width[i] / 2;
+        game->nbDiedNpcs[i] = malloc(sizeof(int));
+        game->map[i] = initMap2(&game,i+1);
+        //game->map[i] = initMap(game->width[i],game->height[i],i+1,&(game->diedNpcs[i]),game->nbDiedNpcs[i],game->mobs,game->mobCount,game->currentPos[i]);
     }
-    int game = 3;
+    int gameState = 3;
     int dir;
-    Player *player = initPlayer(items);
-    int* itemCount = malloc(sizeof(int));
-    int* craftCount = malloc(sizeof(int));
-    Craft* crafts = declareCraft(craftCount);
-    Item* items = declareItem(itemCount);
+    game->itemCount = malloc(sizeof(int));
+    game->craftCount = malloc(sizeof(int));
+    game->crafts = declareCraft(game->craftCount);
+    game->items = declareItem(game->itemCount);
+    game->player = initPlayer(game->items);
+
     do{
-        if(game != 3) {
-            for (i = 0; i < nbDiedNpcs[*currentMap][0]; i++) {
-                if (diedNpcs[*currentMap][i][4] == 1) {
-                    diedNpcs[*currentMap][i][3] -= 1;
-                    if (diedNpcs[*currentMap][i][3] <= 0 &&
-                        map[*currentMap][diedNpcs[*currentMap][i][0]][diedNpcs[*currentMap][i][1]] == 0) {
-                        map[*currentMap][diedNpcs[*currentMap][i][0]][diedNpcs[*currentMap][i][1]] = diedNpcs[*currentMap][i][2];
-                        diedNpcs[*currentMap][i][4] = 0;
+        if(gameState != 3) {
+            for (i = 0; i < game->nbDiedNpcs[*(game->currentMap)][0]; i++) {
+                if (game->diedNpcs[*(game->currentMap)][i][4] == 1) {
+                    game->diedNpcs[*(game->currentMap)][i][3] -= 1;
+                    if (game->diedNpcs[*(game->currentMap)][i][3] <= 0 &&
+                        game->map[*(game->currentMap)][game->diedNpcs[*(game->currentMap)][i][0]][game->diedNpcs[*(game->currentMap)][i][1]] == 0) {
+                        game->map[*(game->currentMap)][game->diedNpcs[*(game->currentMap)][i][0]][game->diedNpcs[*(game->currentMap)][i][1]] = game->diedNpcs[*(game->currentMap)][i][2];
+                        game->diedNpcs[*(game->currentMap)][i][4] = 0;
                     }
                 }
             }
         }
-        for(i = 0;i<height[*currentMap]; i++){
-            for(j=0;j<width[*currentMap]; j++){
-                printf("%3d",map[*currentMap][i][j]);
+        for(i = 0;i<game->height[*(game->currentMap)]; i++){
+            for(j=0;j<game->width[*(game->currentMap)]; j++){
+                printf("%3d",game->map[*(game->currentMap)][i][j]);
             }
             printf("\n");
         }
         printf("\n");
         printf("Que voulez vous faire ?\n   -Se deplacer (tapez 1)\n   -Attendre (tapez 2)\n   -Consulter son inventaire (tapez 3)\n");
-        if(*onPortal){
+        if(*(game->onPortal)){
             printf("   -Prendre le portail (tapez 4)\n   -Quitter et sauvegarer (tapez -1)\n");
         }else{
             printf("   -Quitter et sauvegarer (tapez -1)\n");
         }
-        scanf("%d", &game);
+        scanf("%d", &gameState);
 
-        switch (game) {
+        switch (gameState) {
             case 1:
                 printf("Vers ou voulez vous aller ?\n   -Gauche ? (tapez 1)\n   -Droite ?(tapez 2)\n   -Haut ?(tapez 3)\n   -Bas ?(tapez 4)\n");
                 scanf("%d",&dir);
                 switch (dir) {
                     case 1:
-                        move(map, height[*currentMap], width[*currentMap], currentPos, 'l', currentMap, player, diedNpcs[*currentMap], nbDiedNpcs[*currentMap], mobs, *count, xpWin, onPortal);
+                        move(game->map, game->height[*(game->currentMap)], game->width[*(game->currentMap)], game->currentPos, 'l', game->currentMap, game->player, game->diedNpcs[*(game->currentMap)], game->nbDiedNpcs[*(game->currentMap)], game->mobs, *(game->mobCount), game->xpWin, game->onPortal, game->items);
                         break;
                     case 2:
-                        move(map, height[*currentMap], width[*currentMap], currentPos, 'r', currentMap, player, diedNpcs[*currentMap], nbDiedNpcs[*currentMap], mobs, *count, xpWin, onPortal);
+                        move(game->map, game->height[*(game->currentMap)], game->width[*(game->currentMap)], game->currentPos, 'r', game->currentMap, game->player, game->diedNpcs[*(game->currentMap)], game->nbDiedNpcs[*(game->currentMap)], game->mobs, *(game->mobCount), game->xpWin, game->onPortal, game->items);
                         break;
                     case 3:
-                        move(map, height[*currentMap], width[*currentMap], currentPos, 'u', currentMap, player, diedNpcs[*currentMap], nbDiedNpcs[*currentMap], mobs, *count, xpWin, onPortal);
+                        move(game->map, game->height[*(game->currentMap)], game->width[*(game->currentMap)], game->currentPos, 'u', game->currentMap, game->player, game->diedNpcs[*(game->currentMap)], game->nbDiedNpcs[*(game->currentMap)], game->mobs, *(game->mobCount), game->xpWin, game->onPortal, game->items);
                         break;
                     case 4:
-                        move(map, height[*currentMap], width[*currentMap], currentPos, 'd', currentMap, player, diedNpcs[*currentMap], nbDiedNpcs[*currentMap], mobs, *count, xpWin, onPortal);
+                        move(game->map, game->height[*(game->currentMap)], game->width[*(game->currentMap)], game->currentPos, 'd', game->currentMap, game->player, game->diedNpcs[*(game->currentMap)], game->nbDiedNpcs[*(game->currentMap)], game->mobs, *(game->mobCount), game->xpWin, game->onPortal, game->items);
                         break;
                     default:
                         printf("Ce n'est pas une direction valide\n");
                         break;
                 }
-                if(*xpWin == -1){
+                if(*(game->xpWin) == -1){
                     break;
                 }
-                if(*currentMap == 1 && player->lvl > 3 ){
-                    *xpWin = 0;
-                }else if(*currentMap == 2 && player->lvl > 7){
-                    *xpWin = 0;
+                if(*(game->currentMap) == 1 && game->player->lvl > 3 ){
+                    *(game->xpWin) = 0;
+                }else if(*(game->currentMap) == 2 && game->player->lvl > 7){
+                    *(game->xpWin) = 0;
                 }
-                player->exp += *xpWin;
-                *xpWin = 0;
-                levelUp(player);
+                game->player->exp += *(game->xpWin);
+                *(game->xpWin) = 0;
+                levelUp(game->player);
                 break;
             case 2:
                 lock +=1;
@@ -107,8 +118,8 @@ int main() {
                     scanf("%d",&choice);
                     switch (choice) {
                         case 1:
-                            map[*currentMap][currentPos[*currentMap][0]][currentPos[*currentMap][1]] = 0;
-                            map[*currentMap][startPos[*currentMap][0]][startPos[*currentMap][1]] = 1;
+                            game->map[*(game->currentMap)][game->currentPos[*(game->currentMap)][0]][game->currentPos[*(game->currentMap)][1]] = 0;
+                            game->map[*(game->currentMap)][game->startPos[*(game->currentMap)][0]][game->startPos[*(game->currentMap)][1]] = 1;
                             break;
                         case 2:
                             break;
@@ -120,7 +131,7 @@ int main() {
                 }
                 break;
             case 3:
-                showInventory(player);
+                showInventory(game->player);
                 printf("(Appuyez sur entrer pour fermer l'inventaire)\n");
                 fflush(stdin);
                 scanf("%*c");
@@ -130,12 +141,12 @@ int main() {
             case -1:
                 break;
             case 4:
-                if(*onPortal){
+                if(*(game->onPortal)){
                     printf("Voulez-vous changer de map ?\n   1-Oui\n   2-Non\n");
                     scanf("%d", &choice);
                     switch (choice) {
                         case 1:
-                            *currentMap = *onPortal == 1? *currentMap == 0?1:0 : *currentMap == 1?2:1;
+                            *(game->currentMap) = *(game->onPortal) == 1? *(game->currentMap) == 0?1:0 : *(game->currentMap) == 1?2:1;
                             break;
                         case 2:
                             break;
@@ -150,7 +161,7 @@ int main() {
                 printf("Rentrez un choix valide\n");
                 break;
         }
-    }while(game != -1 && *xpWin != -1);
+    }while(gameState != -1 && *(game->xpWin) != -1);
 
     return 0;
 }

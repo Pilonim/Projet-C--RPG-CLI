@@ -4,7 +4,7 @@
 
 #include "move.h"
 
-void checkCase(int ***map, int **position, int vertical, int horizontal, int *actualMap, Player *p, int **diedNpcs, int *nbDiedNpcs, Mob *mobs, int nbMobs, int *xpWin, int *onPortal) {
+void checkCase(int ***map, int **position, int vertical, int horizontal, int *actualMap, Player *p, int **diedNpcs, int *nbDiedNpcs, Mob *mobs, int nbMobs, int *xpWin, int *onPortal, Item *items) {
     int verif = 0;
     char res[10];
     int i;
@@ -98,7 +98,7 @@ void checkCase(int ***map, int **position, int vertical, int horizontal, int *ac
         }else if(nextMap == 11){
             strcpy(res,"chene");
         }
-        verif = collect(p,nextMap);
+        verif = collect(p,nextMap,items);
         if(verif){
             printf("Vous avez recolter : %d %s\n", verif,res);
             map[*actualMap][position[*actualMap][0]][position[*actualMap][1]] = 0;
@@ -117,7 +117,7 @@ void checkCase(int ***map, int **position, int vertical, int horizontal, int *ac
         };
     }
 }
-void move(int ***map, int height, int width, int **startPosition, char dir, int *actualMap, Player *p, int **diedNpcs, int *nbDiedNpcs, Mob *mobs, int nbMobs, int *xpWin, int *onPortal) {
+void move(int ***map, int height, int width, int **startPosition, char dir, int *actualMap, Player *p, int **diedNpcs, int *nbDiedNpcs, Mob *mobs, int nbMobs, int *xpWin, int *onPortal, Item *items) {
     int horizontal = 0;
     int vertical = 0;
     switch (dir) {
@@ -140,20 +140,20 @@ void move(int ***map, int height, int width, int **startPosition, char dir, int 
     if (startPosition[*actualMap][0] + vertical < 0  || startPosition[*actualMap][1] + horizontal < 0){
         if(vertical){
             vertical = height-1;
-            checkCase(map, startPosition, vertical, horizontal, actualMap, p, diedNpcs, nbDiedNpcs, mobs, nbMobs, xpWin, onPortal);
+            checkCase(map, startPosition, vertical, horizontal, actualMap, p, diedNpcs, nbDiedNpcs, mobs, nbMobs, xpWin, onPortal,items);
         }else{
             horizontal = width-1;
-            checkCase(map, startPosition, vertical, horizontal, actualMap, p, diedNpcs, nbDiedNpcs, mobs, nbMobs, xpWin, onPortal);
+            checkCase(map, startPosition, vertical, horizontal, actualMap, p, diedNpcs, nbDiedNpcs, mobs, nbMobs, xpWin, onPortal,items);
         }
     }else if( startPosition[*actualMap][0] + vertical >= height  || startPosition[*actualMap][1] + horizontal >= width){
         if(vertical){
             vertical = -(height-1);
-            checkCase(map, startPosition, vertical, horizontal, actualMap, p, diedNpcs, nbDiedNpcs, mobs, nbMobs, xpWin, onPortal);
+            checkCase(map, startPosition, vertical, horizontal, actualMap, p, diedNpcs, nbDiedNpcs, mobs, nbMobs, xpWin, onPortal,items);
         }else{
             horizontal = -(width-1);
-            checkCase(map, startPosition, vertical, horizontal, actualMap, p, diedNpcs, nbDiedNpcs, mobs, nbMobs, xpWin, onPortal);
+            checkCase(map, startPosition, vertical, horizontal, actualMap, p, diedNpcs, nbDiedNpcs, mobs, nbMobs, xpWin, onPortal,items);
         }
     }else{
-        checkCase(map, startPosition, vertical, horizontal, actualMap, p, diedNpcs, nbDiedNpcs, mobs, nbMobs, xpWin, onPortal);
+        checkCase(map, startPosition, vertical, horizontal, actualMap, p, diedNpcs, nbDiedNpcs, mobs, nbMobs, xpWin, onPortal,items);
     }
 }

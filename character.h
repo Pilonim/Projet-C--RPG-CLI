@@ -22,7 +22,7 @@ void addInv(int id,Player* player,Item* items);
 void removeItem(Player* player, int index,int nbItem);
 void showPlayer(Player* player);
 void showInventory(Player *p);
-Player initPlayer(Item items);
+Player *initPlayer(Item *items);
 
 
 

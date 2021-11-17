@@ -9,8 +9,7 @@
 
 void initPNJ(PNJ*);
 void addToChest(PNJ*, Player*, int);
-void removeFromChest(PNJ*, Player*, int);
-int chestIsFull(PNJ*);
+void removeFromChest(PNJ*, Player*, int, Item*);
 int getFirstEmptySlot(PNJ*);
 void repairPlayerItems(Player*);
 void showChest(PNJ *p);

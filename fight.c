@@ -162,7 +162,7 @@ void takePotion(int *nbPotions, Player *p, int *potions, int *check){
             } else {
                 p->hp += p->inventory[potions[choice - 1]].effect;
             }
-            removeItem(p,potions[choice - 1]);
+            removeItem(p,potions[choice - 1],1);
         }
         *nbPotions-=1;
         if(*nbPotions == 0){

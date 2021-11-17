@@ -6,7 +6,7 @@
 
 
 
-int collect(Player *p, int caseValue){
+int collect(Player *p, int caseValue, Item *items){
     srand(time(NULL));
     int axe[3] = {4,14,25};
     int pickaxe[3] = {2,12,23};
@@ -53,7 +53,7 @@ int collect(Player *p, int caseValue){
             if(caseValue == 4 || caseValue == 7 || caseValue == 10){
                 if(pickaxe[i] == p->inventory[j].id && p->inventory[j].durability > 0){
                     for(k=0;k<times;k++){
-                        addInv(itemId,p);
+                        addInv(itemId,p,items);
                     }
                     if(itemId < 10 ){
                         p->inventory[j].durability -= (p->inventory[j].maxDurability*0.1);
@@ -67,7 +67,7 @@ int collect(Player *p, int caseValue){
             }else if(caseValue == 5 || caseValue == 8 || caseValue == 11){
                 if(axe[i] == p->inventory[j].id && p->inventory[j].durability > 0){
                     for(k=0;k<times;k++){
-                        addInv(itemId,p);
+                        addInv(itemId,p,items);
                     }
                     if(itemId < 10 ){
                         p->inventory[j].durability -= (p->inventory[j].maxDurability*0.1);
@@ -81,7 +81,7 @@ int collect(Player *p, int caseValue){
             }else if(caseValue == 3 || caseValue == 6 || caseValue == 9){
                 if(billhook[i] == p->inventory[j].id && p->inventory[j].durability > 0){
                     for(k=0;k<times;k++){
-                        addInv(itemId,p);
+                        addInv(itemId,p,items);
                     }
                     if(itemId < 10 ){
                         p->inventory[j].durability -= (p->inventory[j].maxDurability*0.1);

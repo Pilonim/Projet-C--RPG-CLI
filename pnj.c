@@ -17,7 +17,7 @@ void addToChest(PNJ *pnj, Player *player, int index){
         Item* temp = malloc(sizeof(Item));
         temp[0] = player->inventory[index];
 
-        removeItem(player, index);
+        removeItem(player, index, player->inventory[index].amount);
 
         free(pnj->chest);
         pnj->chest = malloc(sizeof(Item));
@@ -34,7 +34,7 @@ void addToChest(PNJ *pnj, Player *player, int index){
 
         temp[pnj->chestSize] = player->inventory[index];
 
-        removeItem(player, index);
+        removeItem(player, index, player->inventory[index].amount);
 
         free(pnj->chest);
         pnj->chestSize +=1 ;
@@ -43,7 +43,7 @@ void addToChest(PNJ *pnj, Player *player, int index){
     }
 }
 
-void removeFromChest(PNJ *pnj, Player *player, int index){
+void removeFromChest(PNJ *pnj, Player *player, int index, Item *items){
 
     if(pnj->chestSize > 1){
         Item* temp = malloc(sizeof(Item) * (pnj->chestSize - 1));
@@ -55,7 +55,7 @@ void removeFromChest(PNJ *pnj, Player *player, int index){
             }
         }
 
-        addInv(pnj->chest[index].id, player);
+        addInv(pnj->chest[index].id, player, items);
 
         free(pnj->chest);
         pnj->chestSize =- 1;
@@ -63,7 +63,7 @@ void removeFromChest(PNJ *pnj, Player *player, int index){
         pnj->chest = temp;
     }else if(pnj->chestSize == 1){
 
-        addInv(pnj->chest[index].id, player);
+        addInv(pnj->chest[index].id, player, items);
 
         free(pnj->chest);
         pnj->chestSize =- 1;

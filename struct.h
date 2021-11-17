@@ -61,5 +61,25 @@ typedef struct mob_s{
     double hp;
     int stage;
 }Mob;
+
+typedef struct game{
+    int height[3];
+    int width[3];
+    int *onPortal;
+    int **currentPos;
+    int ***map;
+    int ***diedNpcs;
+    int **nbDiedNpcs;
+    int startPos[3][2];
+    int *xpWin;
+    int *mobCount;
+    int *currentMap;
+    int *itemCount;
+    int *craftCount;
+    Item *items;
+    Craft *crafts;
+    Mob *mobs;
+    Player *player;
+}Game;
 #endif //MALLOC_WORLD_STRUCT_H
 

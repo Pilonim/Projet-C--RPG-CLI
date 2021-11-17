@@ -19,7 +19,8 @@ Item createItem(int id, char* name, int type, double durability,double maxDurabi
 }
 
 Item* declareItem(int* nbItem){
-    FILE* f = fopen("../item.txt","r+");
+    FILE* f = fopen("../items.txt","r+");
+
     if (f) {
         int count = 0;
         char buffer[255];
@@ -33,13 +34,13 @@ Item* declareItem(int* nbItem){
         while (fgets(buffer, sizeof(buffer), f)) {
             count += 1;
         }
-        Item *items = malloc(sizeof(Craft) * count);
+        Item *items = malloc(sizeof(Item) * count);
         rewind(f);
 
         for (int i = 0; i < count; i++) {
             fgets(buffer, sizeof(buffer), f);
             sscanf(buffer, "id: %d, name: %[^,], type: %d, durability: %lf, maxDurability: %lf, effect: %lf", &(id),
-                   name, &(type), &(durability),&(maxDurability), &(effect));
+                   name, &(type), &(durability), &(maxDurability), &(effect));
             items[i] = createItem(id, name, type, durability, maxDurability, effect);
         }
         fclose(f);
@@ -62,16 +63,18 @@ void addInv(int id,Player* player,Item* items){
             }
         }
     }
-
     if(player->nbItem == 10){
         printf("Votre inventaire est plein");
         return;
     }
-    for (i ; i < 10; ++i) {
+
+    for (; i < 10; ++i) {
         if(player->inventory[i].id == 0)
             break;
     }
 
+    id-=1;
+    //printf("%d %s %d %lf %lf %lf\n",items[id].id,items[id].name,items[id].type,items[id].durability,items[id].maxDurability,items[id].effect);
     player->inventory[i] = createItem(items[id].id,items[id].name,items[id].type,items[id].durability,items[id].maxDurability,items[id].effect);
     /*
     switch (id) {
@@ -217,20 +220,20 @@ void showInventory(Player *p){
         if(p->inventory[i].id != 0){
             if(p->inventory[i].type == CRAFT){
                 printf("index : %d // nom : %s // quantite : %d\n",i,p->inventory[i].name,p->inventory[i].amount);
-                printf("index : %d // nom : %s // durabilite : %0.1lf\n",i,p->inventory[i].name,p->inventory[i].durability);
             }else if(p->inventory[i].type == OUTIL){
+                printf("index : %d // nom : %s // durabilite : %0.1lf\n",i,p->inventory[i].name,p->inventory[i].durability);
             }else if(p->inventory[i].type == ARME){
-            }else if(p->inventory[i].type == ARMURE){
                 printf("index : %d // nom : %s // degats : %0.1lf // durabilite : %0.1lf\n",i,p->inventory[i].name,p->inventory[i].effect,p->inventory[i].durability);
-            }else if(p->inventory[i].type == SOIN) {
+            }else if(p->inventory[i].type == ARMURE){
                 printf("index : %d // nom : %s // armure : %lf\n",i,p->inventory[i].name,p->inventory[i].effect);
+            }else if(p->inventory[i].type == SOIN) {
                 printf("index : %d // nom : %s // soin : %lf hp\n",i,p->inventory[i].name,p->inventory[i].effect);
             }
         }
     }
 }
 
-Player initPlayer(Item items){
+Player *initPlayer(Item *items){
     Player* player = malloc(sizeof(Player));
 
     player->hp = 100;
@@ -244,12 +247,12 @@ Player initPlayer(Item items){
         player->inventory[i] = item;
     }
 
-    addInv(1, player, &items);
-    addInv(2, player, &items);
-    addInv(3, player, &items);
-    addInv(4, player, &items);
+    addInv(1, player, items);
+    addInv(2, player, items);
+    addInv(3, player, items);
+    addInv(4, player, items);
 
-    return *player;
+    return player;
 }
 
 void levelUp(Player *p){

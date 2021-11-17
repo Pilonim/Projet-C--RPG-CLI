@@ -10,5 +10,5 @@
 #include <time.h>
 #include "character.h"
 
-int collect(Player *p, int caseValue);
+int collect(Player *p, int caseValue, Item *items);
 #endif //PROJET_C___JEU_2D_FARM_H
