@@ -44,7 +44,7 @@ void checkCase(int ***map, int **position, int vertical, int horizontal, int *ac
                 if(diedNpcs[i][0] == position[*actualMap][0] && diedNpcs[i][1] == position[*actualMap][1]){
                     diedNpcs[i][3] = 0;
                     diedNpcs[i][4] = 1;
-                    //printf("J sui la diedNpcs[i][3]:%d diedNpcs[i][4]:%d\n",diedNpcs[i][3],diedNpcs[i][4]);
+                    //printf("J sui la npcs[i][3]:%d npcs[i][4]:%d\n",npcs[i][3],npcs[i][4]);
                 }
             }
             map[*actualMap][position[*actualMap][0]][position[*actualMap][1]] = 1;
@@ -157,3 +157,188 @@ void move(int ***map, int height, int width, int **startPosition, char dir, int 
         checkCase(map, startPosition, vertical, horizontal, actualMap, p, diedNpcs, nbDiedNpcs, mobs, nbMobs, xpWin, onPortal,items);
     }
 }
+
+void checkCase2(Game *game, int vertical, int horizontal) {
+    int verif = 0;
+    int choice;
+    char res[10];
+    int i;
+    int nextMap = game->map[*(game->currentMap)][game->currentPos[*(game->currentMap)][0] + vertical][game->currentPos[*(game->currentMap)][1] + horizontal];
+    if(nextMap == -1){
+        printf("Vous ne pouvez pas aller sur cette case\n");
+    }else if(nextMap == 2){
+        printf("Bonjour aventurier, quelle action souhaitez vous effectuer ?\n   1-Reparer ?\n   2-Crafter ?\n   3-Acceder au stockage ?\n");
+        do{
+            scanf("%d",&choice);
+        }while(choice < 1 || choice > 3);
+        switch (choice) {
+            case 1:
+                repairPlayerItems(game->player);
+                printf("Vous avez reparer vos items !\n");
+                break;
+            case 2:
+                isCraftable(game->player,game->crafts,*(game->craftCount),game->items,game->currentMap,game);
+                printf("Que veux-tu craft ?\n");
+                do{
+                    scanf("%d",&choice);
+                }while(choice < 1 || choice > 25);
+                craft(game->player,game->crafts,choice,game->items,game);
+                printf("(entrer pour valider)\n");
+                fflush(stdin);
+                scanf("%*c");
+                printf("\n");
+                fflush(stdin);
+                break;
+            case 3:
+                break;
+            default:
+                printf("Alo ?");
+        }
+    }else if (nextMap == 0) {
+        game->map[*(game->currentMap)][game->currentPos[*(game->currentMap)][0]][game->currentPos[*(game->currentMap)][1]] = 0;
+        game->currentPos[*(game->currentMap)][0] += vertical;
+        game->currentPos[*(game->currentMap)][1] += horizontal;
+        game->map[*(game->currentMap)][game->currentPos[*(game->currentMap)][0]][game->currentPos[*(game->currentMap)][1]] = 1;
+        *(game->onPortal) = 0;
+    }else if (nextMap >= 12) {
+        *(game->xpWin) = fight(game->player,game->mobs,nextMap,*(game->mobCount));
+        if(*(game->xpWin) != -1){
+            game->map[*(game->currentMap)][game->currentPos[*(game->currentMap)][0]][game->currentPos[*(game->currentMap)][1]] = 0;
+            game->currentPos[*(game->currentMap)][0] += vertical;
+            game->currentPos[*(game->currentMap)][1] += horizontal;
+            for(i=0;i<*(game->nbNpcs[*(game->currentMap)]); i++){
+                if(game->npcs[*(game->currentMap)][i][0] == game->currentPos[*(game->currentMap)][0] && game->npcs[*(game->currentMap)][i][1] == game->currentPos[*(game->currentMap)][1]){
+                    game->npcs[*(game->currentMap)][i][3] = 15;
+                    game->npcs[*(game->currentMap)][i][4] = 1;
+                }
+            }
+            game->map[*(game->currentMap)][game->currentPos[*(game->currentMap)][0]][game->currentPos[*(game->currentMap)][1]] = 1;
+            *(game->onPortal) = 0;
+        }else{
+            return;
+        }
+    }else if (nextMap == -2 ){
+        if(game->player->lvl >= 3) {
+            //*(game->currentMap) = *(game->currentMap) == 1 ? 0 : 1;
+            game->map[*(game->currentMap)][game->currentPos[*(game->currentMap)][0]][game->currentPos[*(game->currentMap)][1]] = 0;
+            game->currentPos[*(game->currentMap)][0] += vertical;
+            game->currentPos[*(game->currentMap)][1] += horizontal;
+            for(i=0;i<*(game->nbNpcs[*(game->currentMap)]); i++){
+                if(game->npcs[*(game->currentMap)][i][0] == game->currentPos[*(game->currentMap)][0] && game->npcs[*(game->currentMap)][i][1] == game->currentPos[*(game->currentMap)][1]){
+                    game->npcs[*(game->currentMap)][i][3] = 0;
+                    game->npcs[*(game->currentMap)][i][4] = 1;
+                    //printf("J sui la game->npcs[*(game->currentMap)][i][3]:%d game->npcs[*(game->currentMap)][i][4]:%d\n",game->npcs[*(game->currentMap)][i][3],game->npcs[*(game->currentMap)][i][4]);
+                }
+            }
+            game->map[*(game->currentMap)][game->currentPos[*(game->currentMap)][0]][game->currentPos[*(game->currentMap)][1]] = 1;
+
+            *(game->onPortal) = 1;
+        }else{
+            printf("Vous devez etre au moins niveau 3 pour franchir ce portail ! \n(entrer pour valider)");
+            fflush(stdin);
+            scanf("%*c");
+            printf("\n");
+            fflush(stdin);
+        }
+    }else if(nextMap == -3 ){
+        if(game->player->lvl >= 7) {
+            //*(game->currentMap) = *(game->currentMap) == 1 ? 2 : 1;
+            game->map[*(game->currentMap)][game->currentPos[*(game->currentMap)][0]][game->currentPos[*(game->currentMap)][1]] = 0;
+            game->currentPos[*(game->currentMap)][0] += vertical;
+            game->currentPos[*(game->currentMap)][1] += horizontal;
+            for(i=0;i<*(game->nbNpcs[*(game->currentMap)]); i++){
+                if(game->npcs[*(game->currentMap)][i][0] == game->currentPos[*(game->currentMap)][0] && game->npcs[*(game->currentMap)][i][1] == game->currentPos[*(game->currentMap)][1]){
+                    game->npcs[*(game->currentMap)][i][3] = 0;
+                    game->npcs[*(game->currentMap)][i][4] = 1;
+                }
+            }
+            game->map[*(game->currentMap)][game->currentPos[*(game->currentMap)][0]][game->currentPos[*(game->currentMap)][1]] = 1;
+            *(game->onPortal) = 2;
+        }else{
+            printf("Vous devez etre au moins niveau 7 pour franchir ce portail ! \n(entrer pour valider)");
+            fflush(stdin);
+            scanf("%*c");
+            printf("\n");
+            fflush(stdin);
+        }
+    }else{
+        if(nextMap == 3){
+            strcpy(res,"herbe");
+        }else if(nextMap == 4){
+            strcpy(res,"pierre");
+        }else if(nextMap == 5){
+            strcpy(res,"sapin");
+        }else if(nextMap == 6){
+            strcpy(res,"lavande");
+        }else if(nextMap == 7){
+            strcpy(res,"fer");
+        }else if(nextMap == 8){
+            strcpy(res,"hetre");
+        }else if(nextMap == 9){
+            strcpy(res,"chanvre");
+        }else if(nextMap == 10){
+            strcpy(res,"diamant");
+        }else if(nextMap == 11){
+            strcpy(res,"chene");
+        }
+        verif = collect(game->player,nextMap,game->items);
+        if(verif){
+            printf("Vous avez recolter : %d %s\n", verif,res);
+            game->map[*(game->currentMap)][game->currentPos[*(game->currentMap)][0]][game->currentPos[*(game->currentMap)][1]] = 0;
+            game->currentPos[*(game->currentMap)][0] += vertical;
+            game->currentPos[*(game->currentMap)][1] += horizontal;
+            for(i=0;i<*(game->nbNpcs[*(game->currentMap)]); i++){
+                if(game->npcs[*(game->currentMap)][i][0] == game->currentPos[*(game->currentMap)][0] && game->npcs[*(game->currentMap)][i][1] == game->currentPos[*(game->currentMap)][1]){
+                    game->npcs[*(game->currentMap)][i][3] = 10;
+                    game->npcs[*(game->currentMap)][i][4] = 1;
+                }
+            }
+            game->map[*(game->currentMap)][game->currentPos[*(game->currentMap)][0]][game->currentPos[*(game->currentMap)][1]] = 1;
+            *(game->onPortal) = 0;
+        }else{
+            printf("Vous ne pouvez pas recolter cette ressource\n");
+        };
+    }
+}
+
+void move2(Game *game, char dir) {
+    int horizontal = 0;
+    int vertical = 0;
+    switch (dir) {
+        case 'l':
+            horizontal = -1;
+            break;
+        case 'r':
+            horizontal = 1;
+            break;
+        case 'u':
+            vertical = -1;
+            break;
+        case 'd':
+            vertical = 1;
+            break;
+        default:
+            printf("Direction non autorisee\n");
+            return;
+    }
+    if (game->currentPos[*(game->currentMap)][0] + vertical < 0  || game->currentPos[*(game->currentMap)][1] + horizontal < 0){
+        if(vertical){
+            vertical = game->height[*(game->currentMap)]-1;
+            checkCase2(game,vertical,horizontal);
+        }else{
+            horizontal = game->width[*(game->currentMap)]-1;
+            checkCase2(game,vertical,horizontal);
+        }
+    }else if( game->currentPos[*(game->currentMap)][0] + vertical >= game->height[*(game->currentMap)]  || game->currentPos[*(game->currentMap)][1] + horizontal >= game->width[*(game->currentMap)]){
+        if(vertical){
+            vertical = -(game->height[*(game->currentMap)]-1);
+            checkCase2(game,vertical,horizontal);
+        }else{
+            horizontal = -(game->width[*(game->currentMap)]-1);
+            checkCase2(game,vertical,horizontal);
+        }
+    }else{
+        checkCase2(game,vertical,horizontal);
+    }
+}
+

@@ -68,8 +68,9 @@ typedef struct game{
     int *onPortal;
     int **currentPos;
     int ***map;
-    int ***diedNpcs;
-    int **nbDiedNpcs;
+    int ***npcs;
+    int **nbNpcs;
+    int *isCraftable;
     int startPos[3][2];
     int *xpWin;
     int *mobCount;

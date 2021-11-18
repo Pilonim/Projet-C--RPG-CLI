@@ -332,11 +332,11 @@ int **mapGen2(Game **game, int stage, int *npc, int npcSize){
             if(map[i][j] == 0){
                 if(rand() % (npcSize-count) == 0){
                     map[i][j] = npc[count];
-                    (*((*game)->diedNpcs))[count][0] = i;
-                    (*((*game)->diedNpcs))[count][1] = j;
-                    (*((*game)->diedNpcs))[count][2] = npc[count];
-                    (*((*game)->diedNpcs))[count][3] = 0;
-                    (*((*game)->diedNpcs))[count][4] = 0;
+                    (*game)->npcs[stage - 1][count][0] = i;
+                    (*game)->npcs[stage - 1][count][1] = j;
+                    (*game)->npcs[stage - 1][count][2] = npc[count];
+                    (*game)->npcs[stage - 1][count][3] = 0;
+                    (*game)->npcs[stage - 1][count][4] = 0;
                     if((stage == 2 && npc[count] == -2) || (stage == 3 && npc[count] == -3)) {
                         (*game)->currentPos[stage-1][0] = i;
                         (*game)->currentPos[stage-1][1] = j+1;
@@ -360,7 +360,7 @@ int **mapGen2(Game **game, int stage, int *npc, int npcSize){
             i = -1;
         }
     }
-    (*game)->nbDiedNpcs[stage-1][0] = count;
+    (*game)->nbNpcs[stage - 1][0] = count;
     return map;
 }
 
@@ -379,9 +379,9 @@ int** initMap2(Game **game, int stage){
     int find = 0;
     int nbNpc = (( ((*game)->height[stage-1] )* ((*game)->width[stage-1]))/4);
     int *npc = malloc(nbNpc*sizeof(int));
-    *((*game)->diedNpcs) = malloc(sizeof(int*) * nbNpc);
+    (*game)->npcs[stage - 1] = malloc(sizeof(int*) * nbNpc);
     for(i=0;i<nbNpc;i++){
-        (*((*game)->diedNpcs))[i] = malloc(sizeof(int)*5);
+        (*game)->npcs[stage - 1][i] = malloc(sizeof(int) * 5);
     }
     for(i=0;i<*((*game)->mobCount);i++) {
         if ((*game)->mobs[i].stage == stage) {

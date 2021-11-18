@@ -251,6 +251,11 @@ Player *initPlayer(Item *items){
     addInv(2, player, items);
     addInv(3, player, items);
     addInv(4, player, items);
+    addInv(7, player, items);
+    addInv(7, player, items);
+    addInv(7, player, items);
+    addInv(7, player, items);
+    addInv(7, player, items);
 
     return player;
 }
