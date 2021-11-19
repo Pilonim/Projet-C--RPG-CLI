@@ -77,6 +77,7 @@ typedef struct game{
     int *currentMap;
     int *itemCount;
     int *craftCount;
+    PNJ *pnj;
     Item *items;
     Craft *crafts;
     Mob *mobs;

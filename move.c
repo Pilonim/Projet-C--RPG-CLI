@@ -190,6 +190,30 @@ void checkCase2(Game *game, int vertical, int horizontal) {
                 fflush(stdin);
                 break;
             case 3:
+                do {
+                    printf("Votre chest : \n");
+                    showChest(game->pnj);
+                    printf("Veux-tu ddeposer ou retirer ?\n   1-Retirer\n   2-Deposer\n   0-Quitter\n");
+                    do {
+                        scanf("%d", &choice);
+                    } while (choice < 0 || choice > 2);
+                    switch (choice) {
+                        case 0:
+                            break;
+                        case 1:
+                            break;
+                        case 2:
+                            showInventory(game->player);
+                            printf("Que voulez-vous deposer ?\n");
+                            do {
+                                scanf("%d", &choice);
+                            } while (choice < 0 || choice > 9);
+                            addToChest(game->pnj,game->player,choice);
+                            break;
+                        default:
+                            printf("Alo 2?");
+                    }
+                }while(choice != 0);
                 break;
             default:
                 printf("Alo ?");

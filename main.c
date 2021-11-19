@@ -44,6 +44,8 @@ int main() {
     }
     int gameState = 3;
     int dir;
+    game->pnj = malloc(sizeof(PNJ));
+    initPNJ(game->pnj);
     game->itemCount = malloc(sizeof(int));
     game->craftCount = malloc(sizeof(int));
     game->isCraftable = malloc(sizeof(int) * *game->craftCount);
