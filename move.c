@@ -4,7 +4,7 @@
 
 #include "move.h"
 
-void checkCase(int ***map, int **position, int vertical, int horizontal, int *actualMap, Player *p, int **diedNpcs, int *nbDiedNpcs, Mob *mobs, int nbMobs, int *xpWin, int *onPortal, Item *items) {
+/*void checkCase(int ***map, int **position, int vertical, int horizontal, int *actualMap, Player *p, int **diedNpcs, int *nbDiedNpcs, Mob *mobs, int nbMobs, int *xpWin, int *onPortal, Item *items) {
     int verif = 0;
     char res[10];
     int i;
@@ -156,7 +156,7 @@ void move(int ***map, int height, int width, int **startPosition, char dir, int 
     }else{
         checkCase(map, startPosition, vertical, horizontal, actualMap, p, diedNpcs, nbDiedNpcs, mobs, nbMobs, xpWin, onPortal,items);
     }
-}
+}*/
 
 void checkCase2(Game *game, int vertical, int horizontal) {
     int verif = 0;
@@ -225,7 +225,7 @@ void checkCase2(Game *game, int vertical, int horizontal) {
         game->map[*(game->currentMap)][game->currentPos[*(game->currentMap)][0]][game->currentPos[*(game->currentMap)][1]] = 1;
         *(game->onPortal) = 0;
     }else if (nextMap >= 12) {
-        *(game->xpWin) = fight(game->player,game->mobs,nextMap,*(game->mobCount));
+        *(game->xpWin) = fight(game->player,game->mobs,nextMap,*(game->mobCount),game);
         if(*(game->xpWin) != -1){
             game->map[*(game->currentMap)][game->currentPos[*(game->currentMap)][0]][game->currentPos[*(game->currentMap)][1]] = 0;
             game->currentPos[*(game->currentMap)][0] += vertical;

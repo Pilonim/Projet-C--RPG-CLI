@@ -57,3 +57,17 @@ void printMobs(Mob *mobs, int nbMobs){
         printf("nom : %s, id : %d, damages : %d, hp : %lf, xp : %d, stage : %d\n",mobs[i].name,mobs[i].id,mobs[i].damages,mobs[i].hp,mobs[i].xp,mobs[i].stage);
     }
 }
+
+void respawn(Game *game){
+    int i;
+    for (i = 0; i < game->nbNpcs[*(game->currentMap)][0]; i++) {
+        if (game->npcs[*(game->currentMap)][i][4] == 1) {
+            game->npcs[*(game->currentMap)][i][3] -= 1;
+            if (game->npcs[*(game->currentMap)][i][3] <= 0 &&
+                game->map[*(game->currentMap)][game->npcs[*(game->currentMap)][i][0]][game->npcs[*(game->currentMap)][i][1]] == 0) {
+                game->map[*(game->currentMap)][game->npcs[*(game->currentMap)][i][0]][game->npcs[*(game->currentMap)][i][1]] = game->npcs[*(game->currentMap)][i][2];
+                game->npcs[*(game->currentMap)][i][4] = 0;
+            }
+        }
+    }
+}

@@ -204,10 +204,16 @@ int runAway(int *check){
     return 0;
 }
 
-int checkHps(double *mobHp, Mob *currentMob, double *armor, Player *p ){
+int checkHps(double *mobHp, Mob *currentMob, double *armor, Player *p, Game *game){
     double mobDamages;
     if(*mobHp <= 0){
-        printf("Felicitation ! Vous avez gagne %d xp (Entrer pour terminer le combat)\n",(*currentMob).xp);
+        if(*(game->currentMap) == 0 && game->player->lvl > 3 ){
+            printf("Felicitation ! Vous avez gagne %d xp (Entrer pour terminer le combat)\n",0);
+        }else if(*(game->currentMap) == 1 && game->player->lvl > 7){
+            printf("Felicitation ! Vous avez gagne %d xp (Entrer pour terminer le combat)\n",0);
+        }else {
+            printf("Felicitation ! Vous avez gagne %d xp (Entrer pour terminer le combat)\n", (*currentMob).xp);
+        }
         fflush(stdin);
         scanf("%*c");
         return (*currentMob).xp;
@@ -225,7 +231,7 @@ int checkHps(double *mobHp, Mob *currentMob, double *armor, Player *p ){
     return 0;
 }
 
-int fight(Player *p, Mob *mob, int mobId, int nbMobs){
+int fight(Player *p, Mob *mob, int mobId, int nbMobs, Game *game){
     int *nbWeapons = malloc(sizeof(int));
     *nbWeapons = 0;
     int *weapons;
@@ -275,7 +281,7 @@ int fight(Player *p, Mob *mob, int mobId, int nbMobs){
             *check = 0;
             continue;
         }
-        xp = checkHps(mobHp,currentMob,armor,p);
+        xp = checkHps(mobHp,currentMob,armor,p,game);
         if(xp){
             return xp;
         }

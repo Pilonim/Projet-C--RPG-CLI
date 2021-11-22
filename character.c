@@ -239,7 +239,7 @@ Player *initPlayer(Item *items){
     player->hp = 100;
     player->hpMax = 100;
     player->exp = 0;
-    player->lvl = 10;
+    player->lvl = 4;
     player->nbItem = 0;
     Item item = createItem(0,"",0,0,0,0);
 
@@ -251,11 +251,6 @@ Player *initPlayer(Item *items){
     addInv(2, player, items);
     addInv(3, player, items);
     addInv(4, player, items);
-    addInv(7, player, items);
-    addInv(7, player, items);
-    addInv(7, player, items);
-    addInv(7, player, items);
-    addInv(7, player, items);
 
     return player;
 }

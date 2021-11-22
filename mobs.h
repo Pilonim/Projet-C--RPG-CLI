@@ -13,4 +13,5 @@
 Mob *declareMobs(int *nbMobs);
 Mob createMob(int id, char *name, int damages, int xp, double hp, int stage);
 void printMobs(Mob *mobs, int nbMobs);
+void respawn(Game *game);
 #endif //PROJET_C___JEU_2D_MOBS_H

@@ -432,6 +432,16 @@ int** initMap2(Game **game, int stage){
     return mapGen2(game,stage,npc,nbNpc);
 }
 
+void printMap(Game *game){
+    int i;
+    int j;
+    for(i = 0;i<game->height[*(game->currentMap)]; i++){
+        for(j=0;j<game->width[*(game->currentMap)]; j++){
+            printf("%3d",game->map[*(game->currentMap)][i][j]);
+        }
+        printf("\n");
+    }
+}
 /*for (i = 0; i < height; i++) {
             for (j = 0; j < width; j++) {
                 if (map[i][j] != -1) {
