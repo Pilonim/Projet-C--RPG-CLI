@@ -13,67 +13,61 @@ void initPNJ(PNJ *pnj){
 }
 
 void addToChest(PNJ *pnj, Player *player, int index){
-    if(pnj->chestSize == 0){
-        Item* temp = malloc(sizeof(Item));
-        temp[0] = player->inventory[index];
+    Item* temp = malloc(sizeof(Item) * (pnj->chestSize + 1)); // 1
 
-        removeItem(player, index, player->inventory[index].amount);
-
-        free(pnj->chest);
-        pnj->chest = malloc(sizeof(Item));
-        pnj->chest = temp;
-        pnj->chestSize = pnj->chestSize + 1;
-
-    }else{
-
-        Item* temp = malloc(sizeof(Item) * (pnj->chestSize + 1));
-
-        for (int k = 0; k < pnj->chestSize; ++k) {
-            temp[k] = pnj->chest[k];
-        }
-
-        temp[pnj->chestSize] = player->inventory[index];
-
-        removeItem(player, index, player->inventory[index].amount);
-
-        free(pnj->chest);
-        pnj->chestSize +=1 ;
-        pnj->chest = malloc(sizeof(Item) * pnj->chestSize);
-        pnj->chest = temp;
+    for(int k = 0; k < pnj->chestSize; k++){ // 0
+        temp[k] = pnj->chest[k];
     }
+
+    temp[pnj->chestSize] = player->inventory[index];
+    removeItem(player, index, player->inventory[index].amount); // demander combien ?
+    free(pnj->chest);
+    pnj->chestSize = pnj->chestSize + 1; //1
+    pnj->chest = malloc(sizeof(Item) * pnj->chestSize); // 1
+
+    for(int i = 0; i < pnj->chestSize; i++){ // 0
+        pnj->chest[i] = temp[i];
+    }
+
 }
 
 void removeFromChest(PNJ *pnj, Player *player, int index, Item *items){
 
-    if(pnj->chestSize > 1){
-        Item* temp = malloc(sizeof(Item) * (pnj->chestSize - 1));
-        int cptTemp = 0;
-        for (int k = 0; k < pnj->chestSize; ++k) {
-            if(k != index){
-                temp[cptTemp] = pnj->chest[k];
-                cptTemp += 1;
-            }
-        }
-
-        addInv(pnj->chest[index].id, player, items);
-
-        free(pnj->chest);
-        pnj->chestSize =- 1;
-        pnj->chest = malloc(sizeof(Item) * pnj->chestSize);
-        pnj->chest = temp;
-    }else if(pnj->chestSize == 1){
-
-        addInv(pnj->chest[index].id, player, items);
-
-        free(pnj->chest);
-        pnj->chestSize =- 1;
-        pnj->chest = malloc(sizeof(Item));
-    }else{
-        printf("Votre chest est vide !\n");
+    if(pnj->chestSize == 0){
+        return;
     }
 
+    Item *temp;
+    if(pnj->chestSize > 1) {
+        temp = malloc(sizeof(Item) * pnj->chestSize - 1);
+    }else{
+        temp = malloc(sizeof(Item));
+    }
+
+    int cpt = 0;
+
+    for(int k = 0; k < pnj->chestSize; k++){
+        if(k == index){
+            continue;
+        }else{
+            temp[cpt] = pnj->chest[k];
+            cpt++;
+        }
+    }
+
+    addInv(pnj->chest[index].id, player, items);
+
+    free(pnj->chest);
+    pnj->chestSize = pnj->chestSize - 1;
+    pnj->chest = malloc(sizeof(Item) * pnj->chestSize);
 
 
+
+    for (int i = 0; i < pnj->chestSize; ++i) {
+        pnj->chest[i] = temp[i];
+    }
+
+    free(temp);
 }
 
 int chestIsFull(PNJ* pnj){
