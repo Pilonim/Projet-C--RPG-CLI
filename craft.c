@@ -21,7 +21,7 @@ Craft createCraft(int id,char* name,int materOne,int nbMaterOne,int materTwo,int
 }
 
 Craft* declareCraft(int* nbCraft){
-    FILE* f = fopen("../craft.txt","r+");
+    FILE* f = fopen("craft.txt","r+");
     if (f){
         int count = 0;
         char buffer[255];

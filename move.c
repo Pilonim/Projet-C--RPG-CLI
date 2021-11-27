@@ -160,6 +160,7 @@ void move(int ***map, int height, int width, int **startPosition, char dir, int 
 
 void checkCase2(Game *game, int vertical, int horizontal) {
     int verif = 0;
+    int menuChoice;
     int choice;
     char res[10];
     int i;
@@ -169,9 +170,9 @@ void checkCase2(Game *game, int vertical, int horizontal) {
     }else if(nextMap == 2){
         printf("Bonjour aventurier, quelle action souhaitez vous effectuer ?\n   1-Reparer ?\n   2-Crafter ?\n   3-Acceder au stockage ?\n");
         do{
-            scanf("%d",&choice);
-        }while(choice < 1 || choice > 3);
-        switch (choice) {
+            scanf("%d",&menuChoice);
+        }while(menuChoice < 1 || menuChoice > 3);
+        switch (menuChoice) {
             case 1:
                 repairPlayerItems(game->player);
                 printf("Vous avez reparer vos items !\n");
@@ -180,9 +181,9 @@ void checkCase2(Game *game, int vertical, int horizontal) {
                 isCraftable(game->player,game->crafts,*(game->craftCount),game->items,game->currentMap,game);
                 printf("Que veux-tu craft ?\n");
                 do{
-                    scanf("%d",&choice);
-                }while(choice < 1 || choice > 25);
-                craft(game->player,game->crafts,choice,game->items,game);
+                    scanf("%d",&menuChoice);
+                }while(menuChoice < 1 || menuChoice > 25);
+                craft(game->player, game->crafts, menuChoice, game->items, game);
                 printf("(entrer pour valider)\n");
                 fflush(stdin);
                 scanf("%*c");
@@ -193,14 +194,19 @@ void checkCase2(Game *game, int vertical, int horizontal) {
                 do {
                     printf("Votre chest : \n");
                     showChest(game->pnj);
-                    printf("Veux-tu ddeposer ou retirer ?\n   1-Retirer\n   2-Deposer\n   0-Quitter\n");
+                    printf("Veux-tu deposer ou retirer ?\n   1-Retirer\n   2-Deposer\n   0-Quitter\n");
                     do {
-                        scanf("%d", &choice);
-                    } while (choice < 0 || choice > 2);
-                    switch (choice) {
+                        scanf("%d", &menuChoice);
+                    } while (menuChoice < 0 || menuChoice > 2);
+                    switch (menuChoice) {
                         case 0:
                             break;
                         case 1:
+                            printf("Que voulez-vous retirer ?\n");
+                            do {
+                                scanf("%d", &choice);
+                            } while (choice < 0 || choice > game->pnj->chestSize);
+                            removeFromChest(game->pnj, game->player, choice, game->items);
                             break;
                         case 2:
                             showInventory(game->player);
@@ -208,12 +214,12 @@ void checkCase2(Game *game, int vertical, int horizontal) {
                             do {
                                 scanf("%d", &choice);
                             } while (choice < 0 || choice > 9);
-                            addToChest(game->pnj,game->player,choice);
+                            addToChest(game->pnj, game->player, choice);
                             break;
                         default:
                             printf("Alo 2?");
                     }
-                }while(choice != 0);
+                }while(menuChoice != 0);
                 break;
             default:
                 printf("Alo ?");

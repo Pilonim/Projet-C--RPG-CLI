@@ -19,7 +19,7 @@ Item createItem(int id, char* name, int type, double durability,double maxDurabi
 }
 
 Item* declareItem(int* nbItem){
-    FILE* f = fopen("../items.txt","r+");
+    FILE* f = fopen("items.txt","r+");
 
     if (f) {
         int count = 0;

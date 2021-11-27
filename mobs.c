@@ -17,7 +17,7 @@ Mob createMob(int id, char *name, int damages, int xp, double hp, int stage){
 }
 
 Mob *declareMobs(int *nbMobs){
-    FILE *f = fopen("../mobs.txt","r+");
+    FILE *f = fopen("mobs.txt","r+");
     if(f) {
         int count = 0;
         int i;
