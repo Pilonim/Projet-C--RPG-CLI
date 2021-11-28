@@ -343,3 +343,20 @@ void levelUp(Player *p){
         fflush(stdin);
     }
 }
+
+
+void playerDie(Game *game){
+
+    for (int i = 0; i < 3; ++i) {
+        game->map[i][game->currentPos[i][0]][game->currentPos[i][1]] = 0;
+        game->map[i][game->startPos[i][0]][game->startPos[i][1]] = 1;
+        game->currentPos[i][0] = game->startPos[i][0];
+        game->currentPos[i][1] = game->startPos[i][1];
+    }
+
+    free(game->player);
+    game->player = initPlayer(game->items);
+    *(game->xpWin) = 0;
+    *(game->currentMap) = 0;
+
+}

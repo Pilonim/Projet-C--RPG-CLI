@@ -22,6 +22,7 @@ Item createItem(int id, char* name, int type, double durability,double maxDurabi
 void addInv(int id,Player* player,Item* items);
 void removeItem(Player* player, int index,int nbItem);
 void showInventory(Player *p);
+void playerDie(Game *game);
 Player *initPlayer(Item *items);
 
 
