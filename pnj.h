@@ -7,11 +7,10 @@
 
 #include "struct.h"
 
-void initPNJ(PNJ*);
-void addToChest(PNJ*, Player*, int);
-void removeFromChest(PNJ*, Player*, int, Item*);
-int getFirstEmptySlot(PNJ*);
-void repairPlayerItems(Player*);
-void showChest(PNJ *p);
+void initPNJ(PNJ* pnj);
+void addToChest(PNJ* pnj, Player* player, int index);
+void removeFromChest(PNJ* pnj, Player* player, int index, Item* items);
+void repairPlayerItems(Player* player);
+void showChest(PNJ *pnj);
 
 #endif //MALLOCWORLD_PNJ_H
