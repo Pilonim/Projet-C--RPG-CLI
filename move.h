@@ -11,8 +11,6 @@
 #include "fight.h"
 #include "pnj.h"
 #include "craft.h"
-void move2(Game *game, char dir);
-void checkCase22(Game *game, char dir, int vertical, int horizontal);
-void move(int ***map, int height, int width, int **startPosition, char dir, int *actualMap, Player *p, int **diedNpcs, int *nbDiedNpcs, Mob *mobs, int nbMobs, int *xpWin, int *onPortal, Item * items);
-void checkCase(int ***map, int **position, int vertical, int horizontal, int *actualMap, Player *p, int **diedNpcs, int *nbDiedNpcs, Mob *mobs, int nbMobs, int *xpWin, int *onPortal, Item * items);
+void move(Game *game, char dir);
+void checkCase(Game *game, char dir, int vertical, int horizontal);
 #endif //PROJET_C___JEU_2D_MOVE_H

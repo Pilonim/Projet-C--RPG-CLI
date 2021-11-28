@@ -37,7 +37,7 @@ int main() {
         game->currentPos[i][0] = game->height[i] / 2;
         game->currentPos[i][1] = game->width[i] / 2;
         game->nbNpcs[i] = malloc(sizeof(int));
-        game->map[i] = initMap2(&game,i+1);
+        game->map[i] = initMap(&game, i + 1);
     }
     int gameState = 3;
     int dir;
@@ -72,16 +72,16 @@ int main() {
                 scanf("%d",&dir);
                 switch (dir) {
                     case 1:
-                        move2(game,'l');
+                        move(game, 'l');
                         break;
                     case 2:
-                        move2(game,'r');
+                        move(game, 'r');
                         break;
                     case 3:
-                        move2(game,'u');
+                        move(game, 'u');
                         break;
                     case 4:
-                        move2(game,'d');
+                        move(game, 'd');
                         break;
                     default:
                         printf("Ce n'est pas une direction valide\n");
