@@ -2,7 +2,7 @@
 // Created by kerel on 21/10/2021.
 //
 
-#include "character.h"
+#include "../headers/character.h"
 
 
 Item createItem(int id, char* name, int type, double durability,double maxDurability, double effect){
@@ -232,13 +232,21 @@ void showInventory(Player *p){
         }
     }
 }
-
+void showPlayer(Game *game){
+    printf("Vous etes niveau : %d, vous avez %.2lf hp et vous avez %d/%d xp\n",game->player->lvl,game->player->hp,game->player->exp,game->player->expMax);
+    printf("(entrer pour fermer)\n");
+    fflush(stdin);
+    scanf("%*c");
+    printf("\n");
+    fflush(stdin);
+}
 Player *initPlayer(Item *items){
     Player* player = malloc(sizeof(Player));
 
     player->hp = 100;
     player->hpMax = 100;
     player->exp = 0;
+    player->expMax = 100;
     player->lvl = 4;
     player->nbItem = 0;
     Item item = createItem(0,"",0,0,0,0);
@@ -261,54 +269,63 @@ void levelUp(Player *p){
     if(p->exp >=100 && p->lvl == 1 ){
         p->lvl = 2;
         p->exp -= 100;
+        p->expMax = 200;
         p->hpMax += 10;
         check = 1;
     }
     if(p->exp >=200 && p->lvl == 2 ){
         p->lvl = 3;
         p->exp -= 200;
+        p->expMax = 300;
         p->hpMax += 20;
         check = 1;
     }
     if(p->exp >=300 && p->lvl == 3 ){
         p->lvl = 4;
         p->exp -= 300;
+        p->expMax = 400;
         p->hpMax += 30;
         check = 1;
     }
     if(p->exp >=400 && p->lvl == 4 ){
         p->lvl = 5;
         p->exp -= 400;
+        p->expMax = 500;
         p->hpMax += 40;
         check = 1;
     }
     if(p->exp >=500 && p->lvl == 5 ){
         p->lvl = 6;
         p->exp -= 500;
+        p->expMax = 600;
         p->hpMax += 50;
         check = 1;
     }
     if(p->exp >=600 && p->lvl == 6 ){
         p->lvl = 7;
         p->exp -= 600;
+        p->expMax = 700;
         p->hpMax += 50;
         check = 1;
     }
     if(p->exp >=700 && p->lvl == 7 ){
         p->lvl = 8;
         p->exp -= 700;
+        p->expMax = 800;
         p->hpMax += 50;
         check = 1;
     }
     if(p->exp >=800 && p->lvl == 8 ){
         p->lvl = 9;
         p->exp -= 800;
+        p->expMax = 900;
         p->hpMax += 75;
         check = 1;
     }
     if(p->exp >=900 && p->lvl == 9 ){
         p->lvl = 10;
         p->exp = 0;
+        p->expMax = 0;
         p->hpMax += 75;
         check = 1;
     }

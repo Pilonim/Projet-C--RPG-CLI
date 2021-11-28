@@ -2,8 +2,8 @@
 // Created by kerel on 21/10/2021.
 //
 
-#include "craft.h"
-#include "character.h"
+#include "../headers/craft.h"
+#include "../headers/character.h"
 
 Craft createCraft(int id,char* name,int materOne,int nbMaterOne,int materTwo,int nbMaterTwo,int lvlMin,int itemId){
     Craft* craft = malloc(sizeof(Craft));
@@ -55,7 +55,7 @@ Craft* declareCraft(int* nbCraft){
     }
 }
 
-void isCraftable(Player* player, Craft* crafts, int nbCraft,Item* items, int* actualMap, Game *game){
+int isCraftable(Player* player, Craft* crafts, int nbCraft,Item* items, int* actualMap, Game *game){
     int materOne;
     int materTwo;
     int count = 0;
@@ -93,6 +93,7 @@ void isCraftable(Player* player, Craft* crafts, int nbCraft,Item* items, int* ac
     if(count == 0){
         printf("Aucun\n");
     }
+    return count;
 }
 
 void craft(Player* player, Craft* crafts, int idCraft,Item* items, Game *game){

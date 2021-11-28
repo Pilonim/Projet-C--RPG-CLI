@@ -3,8 +3,8 @@
 //
 
 #include <stdlib.h>
-#include "pnj.h"
-#include "character.h"
+#include "../headers/pnj.h"
+#include "../headers/character.h"
 
 void initPNJ(PNJ *pnj){
     pnj->chestSize = 0;

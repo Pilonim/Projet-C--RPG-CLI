@@ -2,7 +2,7 @@
 // Created by jonat on 21/10/2021.
 //
 
-#include "move.h"
+#include "../headers/move.h"
 
 void chest(Game *game){
     int menuChoice;
@@ -49,12 +49,13 @@ void moveToPnj(Game *game){
             printf("Vous avez reparer vos items !\n");
             break;
         case 2:
-            isCraftable(game->player,game->crafts,*(game->craftCount),game->items,game->currentMap,game);
-            printf("Que veux-tu craft ?\n");
-            do{
-                scanf("%d",&menuChoice);
-            }while(menuChoice < 1 || menuChoice > 25);
-            craft(game->player, game->crafts, menuChoice, game->items, game);
+            if(isCraftable(game->player,game->crafts,*(game->craftCount),game->items,game->currentMap,game)){
+                printf("Que veux-tu craft ?\n");
+                do{
+                    scanf("%d",&menuChoice);
+                }while(menuChoice < 1 || menuChoice > 25);
+                craft(game->player, game->crafts, menuChoice, game->items, game);
+            }
             printf("(entrer pour valider)\n");
             fflush(stdin);
             scanf("%*c");

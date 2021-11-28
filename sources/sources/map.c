@@ -3,7 +3,7 @@
 //
 
 
-#include "map.h"
+#include "../headers/map.h"
 void shuffle(int *array, int n)
 {
     srand( time( NULL ) );
@@ -210,6 +210,7 @@ void printMap(Game *game){
     int j;
     for(i = 0;i<game->height[*(game->currentMap)]; i++){
         for(j=0;j<game->width[*(game->currentMap)]; j++){
+
             printf("%3d",game->map[*(game->currentMap)][i][j]);
         }
         printf("\n");

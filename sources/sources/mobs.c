@@ -2,7 +2,7 @@
 // Created by jonat on 21/10/2021.
 //
 
-#include "mobs.h"
+#include "../headers/mobs.h"
 
 Mob createMob(int id, char *name, int damages, int xp, double hp, int stage){
     Mob *mob = malloc(sizeof(Mob));

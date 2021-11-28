@@ -41,6 +41,7 @@ typedef struct Player{
     double hp;
     double hpMax;
     int exp;
+    int expMax;
     int lvl;
     Item inventory[10];
     int nbItem;
@@ -81,6 +82,7 @@ typedef struct game{
     Craft *crafts;
     Mob *mobs;
     Player *player;
+    char playerName[255];
 }Game;
 
 #endif //MALLOC_WORLD_STRUCT_H

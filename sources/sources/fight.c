@@ -2,7 +2,7 @@
 // Created by jonat on 23/10/2021.
 //
 
-#include "fight.h"
+#include "../headers/fight.h"
 void initStuff(int *nbWeapons,int *nbChest, int *nbPotions, int **weapons, int **potions, int **chest, Player *p, int *count){
     int i;
     for(i=0;i<10;i++){
@@ -76,17 +76,17 @@ void startFight(Mob *mob, int nbMobs, int mobId, Mob * currentMob, double * mobH
         if(mob[i].id == mobId){
             *mobHp = mob[i].hp;
             *currentMob = mob[i];
-            printf("VOUS ENTREZ EN COMBAT CONTRE : %s", mob[i].name);
+            printf("VOUS ENTREZ EN COMBAT CONTRE : %s il a %0.2lf hp,", mob[i].name,mob[i].hp);
             if(*nbWeapons == 0){
-                printf(" sans arme, fuyez");
+                printf(" sans arme");
             }else{
                 printf(" avec %s",p->inventory[*chosenWeapon].name);
             }
             if(*nbChest == 0){
-                printf(" et sans armure\n");
+                printf(" et sans armure avec %0.2lf hp\n",p->hp);
             }else{
                 *armor = p->inventory[*chosenChest].effect;
-                printf(" et avec %s\n", p->inventory[*chosenChest].name);
+                printf(" et avec %s avec %0.2lf hp\n", p->inventory[*chosenChest].name,p->hp);
             }
         }
     }

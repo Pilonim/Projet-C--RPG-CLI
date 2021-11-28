@@ -2,7 +2,7 @@
 // Created by ferre on 29/10/2021.
 //
 
-#include "save.h"
+#include "../headers/save.h"
 
 
 
@@ -47,7 +47,7 @@ void savePlayer(FILE *fp, Game *game){
     fprintf(fp, "{%d}/{%d}\n", game->player->exp, (game->player->lvl * 100));
     fprintf(fp, "{%f}/{%f}\n", game->player->hp, game->player->hpMax);
     fputs("-- INVENTORY --\n", fp);
-    int invSize = sizeof(game->player->inventory) / sizeof(Item);
+    int invSize = 10;
     for (int k = 0; k < invSize ; ++k) {
         Item actualSlot = game->player->inventory[k];
         if(actualSlot.id == 0){
@@ -98,6 +98,13 @@ void saveNPCS(FILE *fp, Game *game){
         fprintf(fp, "\n");
     }
 }
+
+
+void saveCurrentZone(FILE *fp, Game *game){
+    fprintf(fp, "-- CURRENT ZONE --\n");
+    fprintf(fp, "%d\n", *(game->currentMap));
+}
+
 
 void addToChestSave(PNJ *pnj, Item *it){
     Item* temp = malloc(sizeof(Item) * (pnj->chestSize + 1)); // 1
@@ -271,8 +278,17 @@ void loadPlayer(FILE *fp, Game *game){
             for (int k = 0; k < 10; ++k) {
                 fgets(buffer, sizeof(buffer), fp);
                 Item *it = malloc(sizeof(Item));
-                sscanf(buffer, "{%d}@{%d}@{%lf}", &it->id, &it->amount, &it->durability);
-                game->player->inventory[k] = *it;
+                sscanf(buffer, "{%d}@{%d}@{%lf}", &it->amount, &it->id, &it->durability);
+                if(it->amount != 0) {
+                    strcpy(it->name,game->items[it->id-1].name);
+                    it->type = game->items[it->id-1].type;
+                    it->maxDurability = game->items[it->id-1].maxDurability;
+                    it->effect = game->items[it->id-1].effect;
+                    game->player->inventory[k] = *it;
+                }else{
+                    game->player->inventory[k] = createItem(0,"",0,0,0,0);
+                }
+
             }
         }
         fgets(buffer, sizeof(buffer), fp);
@@ -301,34 +317,49 @@ void loadPlayer(FILE *fp, Game *game){
 void loadNPCS(FILE *fp, Game *game, int ***tempNPCS){
     char buffer[255];
     strcpy(buffer,"-- ZONE 1 --\n");
-        if (!strcmp(buffer, "-- ZONE 1 --\n")) {
-            for (int j = 0; j < game->nbNpcs[0][0]; ++j) {
-                fgets(buffer, sizeof(buffer), fp);
-                sscanf(buffer, "%d %d %d %d %d", &tempNPCS[0][j][0], &tempNPCS[0][j][1], &tempNPCS[0][j][2], &tempNPCS[0][j][3], &tempNPCS[0][j][4]);
+    if (!strcmp(buffer, "-- ZONE 1 --\n")) {
+        for (int j = 0; j < game->nbNpcs[0][0]; ++j) {
+            fgets(buffer, sizeof(buffer), fp);
+            if(!strcmp(buffer,"-- ZONE 1 --\n")) {
+                j--;
+            }else{
+                sscanf(buffer, "%d %d %d %d %d", &tempNPCS[0][j][0], &tempNPCS[0][j][1], &tempNPCS[0][j][2],
+                       &tempNPCS[0][j][3], &tempNPCS[0][j][4]);
             }
         }
-        fgets(buffer, sizeof(buffer), fp);
-        if (!strcmp(buffer, "-- ZONE 2 --\n")) {
-            for (int j = 0; j < game->nbNpcs[1][0]; ++j) {
-                fgets(buffer, sizeof(buffer), fp);
-                sscanf(buffer, "%d %d %d %d %d", &tempNPCS[1][j][0], &tempNPCS[1][j][1], &tempNPCS[1][j][2], &tempNPCS[1][j][3], &tempNPCS[1][j][4]);
-            }
+    }
+    fgets(buffer, sizeof(buffer), fp);
+    if (!strcmp(buffer, "-- ZONE 2 --\n")) {
+        for (int j = 0; j < game->nbNpcs[1][0]; ++j) {
+            fgets(buffer, sizeof(buffer), fp);
+            sscanf(buffer, "%d %d %d %d %d", &tempNPCS[1][j][0], &tempNPCS[1][j][1], &tempNPCS[1][j][2], &tempNPCS[1][j][3], &tempNPCS[1][j][4]);
         }
-        fgets(buffer, sizeof(buffer), fp);
-        if (!strcmp(buffer, "-- ZONE 3 --\n")) {
-            for (int j = 0; j < game->nbNpcs[2][0]; ++j) {
-                fgets(buffer, sizeof(buffer), fp);
-                sscanf(buffer, "%d %d %d %d %d", &tempNPCS[2][j][0], &tempNPCS[2][j][1], &tempNPCS[2][j][2], &tempNPCS[2][j][3], &tempNPCS[2][j][4]);
-            }
+    }
+    fgets(buffer, sizeof(buffer), fp);
+    if (!strcmp(buffer, "-- ZONE 3 --\n")) {
+        for (int j = 0; j < game->nbNpcs[2][0]; ++j) {
+            fgets(buffer, sizeof(buffer), fp);
+            sscanf(buffer, "%d %d %d %d %d", &tempNPCS[2][j][0], &tempNPCS[2][j][1], &tempNPCS[2][j][2], &tempNPCS[2][j][3], &tempNPCS[2][j][4]);
         }
+    }
 
+}
+
+
+void loadCurrentZone(FILE *fp, Game *game){
+    char buffer[255];
+    fgets(buffer, sizeof(buffer), fp);
+    if (!strcmp(buffer, "-- CURRENT ZONE --\n")) {
+        fgets(buffer, sizeof(buffer), fp);
+        sscanf(buffer, "%d", game->currentMap);
+    }
 }
 
 
 void save(Game *game){
     FILE *fp = NULL;
 
-    char path[255] = "../save/";
+    char path[255] = "save/";
     strcat(path, game->playerName);
     strcat(path, "_save.txt");
     fopen_s(&fp, path, "w");
@@ -336,6 +367,7 @@ void save(Game *game){
     saveMap(fp, game);
     savePlayer(fp, game);
     saveNPCS(fp, game);
+    saveCurrentZone(fp, game);
 
     fclose(fp);
 }
@@ -344,7 +376,7 @@ void load(Game **game){
     FILE *fp = NULL;
     char buffer[255];
     int count = 0;
-    char path[255] = "../save/";
+    char path[255] = "save/";
     strcat(path, (*game)->playerName);
     strcat(path, "_save.txt");
     fopen_s(&fp, path, "r");
@@ -418,7 +450,7 @@ void load(Game **game){
         (*game)->npcs = tempNPCS;
     }
 
-
+    loadCurrentZone(fp, (*game));
 
     fclose(fp);
 
