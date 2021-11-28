@@ -9,7 +9,9 @@
 #include <stdlib.h>
 #include "struct.h"
 #include "string.h"
-void save(Game*);
-void load(Game*);
-void addToChestSave(PNJ*, Item*);
+#include "character.h"
+void save(Game *game);
+
+void load(Game **game);
+
 #endif //PROJET_C___JEU_2D_SAVE_H
